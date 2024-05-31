@@ -1,0 +1,46 @@
+name: ADGC
+models:
+  ADGC:
+    layout: |
+      xxxxxxxxx
+      AAAADDDDx
+      AAAADDDDx
+      AAAADDDDx
+      AAAADDDDx
+      GGGGCCCCx
+      GGGGCCCCx
+      GGGGCCCCx
+      GGGGCCCCx
+  FILES:
+    layout: |
+      xxxxxxxxx
+      ZZZZDDDDx
+      ZZZZDDDDx
+      ZZZZDDDDx
+      ZZZZDDDDx
+      HHHHAAAAx
+      HHHHAAAAx
+      HHHHAAAAx
+      HHHHAAAAx
+
+scales:
+  C_major: [C, D, E, F, G, A, B]
+colors:
+  C: [255, 0, 0]
+  D: [0, 255, 0]
+  E: [0, 0, 255]
+  F: [255, 255, 0]
+  G: [0, 255, 255]
+  A: [255, 0, 255]
+  B: [128, 128, 128]
+file_char_and_locations:
+  Z: "./sounds/upupup.wav"
+  Y: "./sounds/yallah.wav"
+  H: "./sounds/bisou.wav"
+  U: "./sounds/hopla.wav"
+file_colors:
+  Z: [128, 0, 0]
+  Y: [0, 128, 0]
+  H: [0, 0, 128]
+  U: [128, 128, 0]
+debounce: true  # Add this setting to enable/disable debouncing
