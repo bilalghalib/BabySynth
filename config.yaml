@@ -14,14 +14,14 @@ models:
   FILES:
     layout: |
       xxxxxxxxx
-      ZZZZDDDDx
-      ZZZZDDDDx
-      ZZZZDDDDx
-      ZZZZDDDDx
-      HHHHAAAAx
-      HHHHAAAAx
-      HHHHAAAAx
-      HHHHAAAAx
+      AAAABBBBx
+      AAAABBBBx
+      CCCCDDDDx
+      EEEEFFFFx
+      HHHHZZZZx
+      HHHHZZZZx
+      HHHHZZZZx
+      HHHHZZZZx
 
 scales:
   C_major: [C, D, E, F, G, A, B]
@@ -34,10 +34,10 @@ colors:
   A: [255, 0, 255]
   B: [128, 128, 128]
 file_char_and_locations:
-  Z: "./sounds/upupup.wav"
-  Y: "./sounds/yallah.wav"
-  H: "./sounds/bisou.wav"
-  U: "./sounds/hopla.wav"
+  Z: "./sounds/upla.wav"
+  Y: "./sounds/beezoo.wav"
+  H: "./sounds/beezoo.wav"
+  U: "./sounds/upla.wav"
 file_colors:
   Z: [128, 0, 0]
   Y: [0, 128, 0]
