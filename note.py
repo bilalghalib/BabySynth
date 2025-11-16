@@ -1,4 +1,7 @@
-#note_m.py
+"""
+BabySynth - Note and Audio Classes
+Defines Button, Note, and Chord classes for synthesizer functionality.
+"""
 from mingus.containers import Note as MingusNote, NoteContainer
 import numpy as np
 import simpleaudio as sa

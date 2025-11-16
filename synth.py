@@ -1,9 +1,13 @@
+"""
+BabySynth - LaunchpadSynth Controller
+Main controller that manages the Launchpad interface, note mapping, and sound playback.
+"""
 import yaml
 import logging
-from lpminimk3 import ButtonEvent, Mode, find_launchpads
-from note import Note, Button, Chord
 import threading
 import simpleaudio as sa
+from lpminimk3 import ButtonEvent, Mode, find_launchpads
+from note import Note, Button, Chord
 
 class LaunchpadSynth:
     def __init__(self, config_file):
