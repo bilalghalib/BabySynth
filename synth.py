@@ -10,7 +10,7 @@ from lpminimk3 import ButtonEvent, Mode, find_launchpads
 from note import Note, Button, Chord
 
 class LaunchpadSynth:
-    def __init__(self, config_file):
+    def __init__(self, config_file, web_broadcaster=None):
         self.load_config(config_file)
         self.init_launchpad()
         self.notes = {}
@@ -21,6 +21,7 @@ class LaunchpadSynth:
         self.DEBOUNCE_WINDOW = 0.005  # Reduced debounce window
         self.debounce_timer = None
         self.lock = threading.Lock()  # Lock for thread-safe operations
+        self.web_broadcaster = web_broadcaster  # Optional web UI broadcaster
 
     def load_config(self, config_file):
         with open(config_file, 'r') as file:
@@ -49,6 +50,8 @@ class LaunchpadSynth:
             for y in range(9):
                 led = self.lp.panel.led(x, y)
                 led.color = (0, 0, 0)
+                if self.web_broadcaster:
+                    self.web_broadcaster.update_led(x, y, (0, 0, 0))
 
     def assign_notes_and_files(self, scale, model_name):
         layout = self.models[model_name]['layout'].strip().split('\n')
@@ -72,7 +75,7 @@ class LaunchpadSynth:
                     frequency = self.get_frequency_for_note(note_name)
                     color = self.colors[note_name]
                     if note_name not in self.notes:
-                        self.notes[note_name] = Note(note_name, frequency, [button], color, self.lp)
+                        self.notes[note_name] = Note(note_name, frequency, [button], color, self.lp, self.web_broadcaster)
                     else:
                         self.notes[note_name].buttons.append(button)
                 elif char in file_mapping:
@@ -89,10 +92,17 @@ class LaunchpadSynth:
     def initialize_grid(self):
         for note in self.notes.values():
             note.light_up_buttons(note.color)
+            # Broadcast to web UI
+            if self.web_broadcaster:
+                for button in note.buttons:
+                    self.web_broadcaster.update_led(button.x, button.y, note.color)
         for char, audio in self.audio_files.items():
             for button in audio["buttons"]:
                 led = self.lp.panel.led(button.x, button.y)
                 led.color = audio["color"]  # Set the color for audio file buttons
+                # Broadcast to web UI
+                if self.web_broadcaster:
+                    self.web_broadcaster.update_led(button.x, button.y, audio["color"])
 
     def get_frequency_for_note(self, note):
         note_frequencies = {

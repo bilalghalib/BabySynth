@@ -1,0 +1,323 @@
+/* BabySynth Audio Engine Editor Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.subtitle {
+    font-size: 1.1em;
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.nav-link {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.nav-link.active {
+    background: white;
+    color: #667eea;
+}
+
+.editor-main {
+    display: grid;
+    gap: 25px;
+}
+
+.panel {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.panel h2 {
+    color: #667eea;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.panel h3 {
+    color: #764ba2;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+/* Waveform Selector */
+.waveform-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.waveform-btn {
+    background: #f5f5f5;
+    border: 3px solid #ddd;
+    border-radius: 15px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.waveform-btn svg {
+    width: 100px;
+    height: 50px;
+    color: #666;
+}
+
+.waveform-btn:hover {
+    border-color: #667eea;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+}
+
+.waveform-btn.active {
+    border-color: #667eea;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.waveform-btn.active svg {
+    color: white;
+}
+
+/* ADSR Controls */
+.envelope-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.control-group label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+    color: #555;
+}
+
+.value {
+    color: #667eea;
+    font-weight: 600;
+}
+
+input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: #ddd;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: #764ba2;
+    transform: scale(1.2);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    border: none;
+}
+
+#envelope-canvas {
+    width: 100%;
+    max-width: 600px;
+    height: 200px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    margin: 0 auto;
+    display: block;
+}
+
+/* Effects */
+.effects-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.effect-group {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid #eee;
+}
+
+/* Layout Grid */
+.info {
+    color: #666;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.layout-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 8px;
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 15px;
+    max-width: 600px;
+    margin: 0 auto 20px;
+}
+
+.layout-btn {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    background: rgb(20, 20, 20);
+    border: 2px solid #333;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.layout-btn:hover {
+    transform: scale(1.05);
+    border-color: #666;
+}
+
+.layout-btn.selected {
+    border-color: white;
+    box-shadow: 0 0 15px rgba(255,255,255,0.5);
+}
+
+.layout-controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#note-selector {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+button {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+button:hover {
+    background: #764ba2;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+footer {
+    text-align: center;
+    color: white;
+    margin-top: 40px;
+    padding: 30px;
+}
+
+.apply-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    font-size: 1.2em;
+    padding: 15px 40px;
+    margin-bottom: 20px;
+}
+
+.apply-btn:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .waveform-selector {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .envelope-controls {
+        grid-template-columns: 1fr;
+    }
+
+    .effects-controls {
+        grid-template-columns: 1fr;
+    }
+
+    header h1 {
+        font-size: 2em;
+    }
+}

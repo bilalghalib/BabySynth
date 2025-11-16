@@ -11,7 +11,10 @@ https://github.com/bilalghalib/BabySynth/assets/3254792/a62da9f3-094c-42cb-885c-
 - **🎵 Synthesizer Mode**: Play musical notes with different scales and layouts
 - **🔊 Soundboard Mode**: Trigger .wav sound files with button presses
 - **🌈 Visual Feedback**: Colorful LED lighting for each note/sound
+- **📱 Web UI Monitor**: Real-time visual display of the Launchpad grid in your browser!
+- **🎛️ Audio Engine Editor**: Web-based editor for waveforms, ADSR envelopes, and effects
 - **🎮 30+ Games & Demos**: Simon Says, Snake, Bubble Pop, and many more!
+- **🔌 Plugin System**: Easy framework for creating custom games - no advanced coding required!
 - **⚙️ Fully Configurable**: Easy YAML-based configuration for custom layouts
 - **👶 Baby-Friendly**: Designed for little hands with debouncing and simple interactions
 
@@ -45,6 +48,21 @@ When you run `main.py`, the Launchpad will light up with colorful buttons:
 - Press any button to play that note
 - Release the button to stop the note
 - The layout is fully customizable via `config.yaml`
+
+### 🌐 Web UI Mode (NEW!)
+
+For a visual monitor of what your baby is playing:
+
+```bash
+python main_web.py
+```
+
+Then open your browser to **http://localhost:5000**
+
+You'll see:
+- **Live View** - Real-time visualization of the Launchpad grid
+- **Audio Editor** (http://localhost:5000/editor) - Configure waveforms, ADSR envelopes, and effects
+- Perfect for monitoring from another room or recording sessions!
 
 ## Configuration
 
@@ -106,8 +124,11 @@ See `configs/` directory for more example configurations including:
 ```
 BabySynth/
 ├── main.py              # Main entry point
+├── main_web.py          # Web UI enabled version
 ├── synth.py             # Core synthesizer logic
 ├── note.py              # Note and button classes
+├── game_plugin.py       # Game plugin system
+├── web_ui.py            # Web server for live view
 ├── config.yaml          # Main configuration
 ├── requirements.txt     # Python dependencies
 ├── sounds/              # Sound files (.wav)
@@ -115,11 +136,21 @@ BabySynth/
 │   ├── drum_kit.yaml
 │   ├── baby_config.yaml
 │   └── ...
-└── demos/               # Games and demos
-    ├── simon.py         # Simon Says game
-    ├── snake.py         # Snake game
-    ├── bubble.py        # Bubble popping
-    └── ... (30+ more!)
+├── demos/               # Games and demos
+│   ├── simon.py         # Simon Says game
+│   ├── snake.py         # Snake game
+│   ├── bubble.py        # Bubble popping
+│   └── ... (30+ more!)
+├── plugins/             # Custom game plugins
+│   ├── whack_a_light.py
+│   ├── rainbow_chase.py
+│   └── README.md        # Plugin development guide
+├── templates/           # Web UI HTML templates
+│   ├── index.html       # Live view
+│   └── editor.html      # Audio engine editor
+└── static/              # Web UI assets
+    ├── css/
+    └── js/
 ```
 
 ## Games & Demos
@@ -144,6 +175,73 @@ python demos/snake.py
 ```
 
 See `demos/README.md` for a complete list and descriptions.
+
+## 🔌 Creating Your Own Games (Plugin System)
+
+**NEW!** BabySynth now includes an easy-to-use plugin system for creating custom games!
+
+### Quick Start
+
+1. Create a new Python file in the `plugins/` directory
+2. Inherit from the `Game` base class
+3. Implement three simple methods: `start()`, `handle_button_press()`, and `stop()`
+
+### Example - Complete Game in ~30 Lines!
+
+```python
+from game_plugin import Game
+import random
+
+class MyFirstGame(Game):
+    def __init__(self):
+        super().__init__(
+            name="Color Pop",
+            description="Pop the colors as they appear!",
+            difficulty="Easy",
+            min_age=1
+        )
+        self.score = 0
+
+    def start(self):
+        self.clear_grid()
+        self.show_random_light()
+
+    def show_random_light(self):
+        x = random.randint(0, 8)
+        y = random.randint(1, 8)
+        color = (255, 0, 0)  # Red
+        self.set_led(x, y, color)
+        self.current = (x, y)
+
+    def handle_button_press(self, x, y):
+        if (x, y) == self.current:
+            self.score += 1
+            print(f"Score: {self.score}")
+            self.clear_grid()
+            self.show_random_light()
+
+    def stop(self):
+        self.clear_grid()
+        print(f"Final score: {self.score}")
+```
+
+### Running Plugin Games
+
+```bash
+python game_plugin.py
+```
+
+The system automatically discovers all games in `plugins/` and lets you choose which to play!
+
+### For Parents and Educators
+
+The plugin system is designed to be accessible to:
+- Parents with basic Python knowledge
+- Educators teaching programming
+- Older children learning to code
+- Anyone wanting to create custom interactive experiences
+
+See `plugins/README.md` for a complete guide with examples!
 
 ## How It Works
 
