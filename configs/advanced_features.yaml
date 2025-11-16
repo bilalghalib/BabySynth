@@ -1,0 +1,250 @@
+# BabySynth Advanced Features Configuration
+# This showcases ALL the new YAML capabilities!
+
+name: "Advanced Demo"
+
+# Standard configuration
+models:
+  rainbow_grid:
+    layout: |
+      xxxxxxxxx
+      CCDDEEFFx
+      CCDDEEFFx
+      GGAABBCCx
+      GGAABBCCx
+      DDEEFFGGx
+      DDEEFFGGx
+      AABBCCDDx
+      AABBCCDDx
+
+scales:
+  C_major: [C, D, E, F, G, A, B]
+  pentatonic: [C, D, F, G, A]
+
+colors:
+  C: [255, 0, 0]      # Red
+  D: [255, 127, 0]    # Orange
+  E: [255, 255, 0]    # Yellow
+  F: [0, 255, 0]      # Green
+  G: [0, 255, 255]    # Cyan
+  A: [0, 0, 255]      # Blue
+  B: [148, 0, 211]    # Purple
+
+debounce: true
+
+# 🎭 NEW: LED ANIMATIONS
+# Define sequences of LED patterns that loop
+animations:
+  rainbow_wave:
+    duration: 3.0
+    loop: true
+    frames:
+      - delay: 0.15
+        pattern:
+          - [[255,0,0], [255,0,0], [255,0,0], [255,0,0], [255,0,0], [255,0,0], [255,0,0], [255,0,0], [0,0,0]]
+          - [[255,127,0], [255,127,0], [255,127,0], [255,127,0], [255,127,0], [255,127,0], [255,127,0], [255,127,0], [0,0,0]]
+          - [[255,255,0], [255,255,0], [255,255,0], [255,255,0], [255,255,0], [255,255,0], [255,255,0], [255,255,0], [0,0,0]]
+      - delay: 0.15
+        pattern:
+          - [[255,127,0], [255,127,0], [255,127,0], [255,127,0], [255,127,0], [255,127,0], [255,127,0], [255,127,0], [0,0,0]]
+          - [[255,255,0], [255,255,0], [255,255,0], [255,255,0], [255,255,0], [255,255,0], [255,255,0], [255,255,0], [0,0,0]]
+          - [[0,255,0], [0,255,0], [0,255,0], [0,255,0], [0,255,0], [0,255,0], [0,255,0], [0,255,0], [0,0,0]]
+
+  sparkle:
+    duration: 1.0
+    loop: true
+    frames:
+      - delay: 0.1
+        pattern:
+          - [[255,255,255], [0,0,0], [0,0,0], [255,255,255], [0,0,0], [0,0,0], [255,255,255], [0,0,0], [0,0,0]]
+          - [[0,0,0], [255,255,255], [0,0,0], [0,0,0], [255,255,255], [0,0,0], [0,0,0], [255,255,255], [0,0,0]]
+
+  breathing:
+    duration: 2.0
+    loop: true
+    frames:
+      - delay: 0.2
+        brightness: 0.2
+      - delay: 0.2
+        brightness: 0.5
+      - delay: 0.2
+        brightness: 1.0
+      - delay: 0.2
+        brightness: 0.5
+
+# 🎵 NEW: CHORD PROGRESSIONS
+# Define sequences of notes to play together
+chord_progressions:
+  happy: [C, F, G, C]
+  sad: [A, D, E, A]
+  jazzy: [C, E, G, A]
+  lullaby: [C, G, A, F, C]
+  energetic: [C, D, E, G, A, B, C]
+
+# Define actual chords (multiple notes)
+chords:
+  C_major: [C, E, G]
+  F_major: [F, A, C]
+  G_major: [G, B, D]
+  A_minor: [A, C, E]
+
+# 🌈 NEW: THEMES
+# Color palettes you can switch between on-the-fly!
+themes:
+  ocean:
+    C: [0, 50, 100]
+    D: [0, 100, 150]
+    E: [0, 150, 200]
+    F: [0, 200, 255]
+    G: [50, 220, 255]
+    A: [100, 240, 255]
+    B: [150, 250, 255]
+
+  sunset:
+    C: [255, 50, 0]
+    D: [255, 100, 0]
+    E: [255, 150, 50]
+    F: [255, 200, 100]
+    G: [255, 150, 150]
+    A: [200, 100, 150]
+    B: [150, 50, 100]
+
+  forest:
+    C: [0, 100, 0]
+    D: [0, 150, 0]
+    E: [50, 200, 50]
+    F: [100, 255, 100]
+    G: [150, 255, 150]
+    A: [100, 200, 100]
+    B: [50, 150, 50]
+
+  candy:
+    C: [255, 20, 147]   # Pink
+    D: [255, 105, 180]  # Hot pink
+    E: [255, 192, 203]  # Light pink
+    F: [255, 0, 255]    # Magenta
+    G: [238, 130, 238]  # Violet
+    A: [221, 160, 221]  # Plum
+    B: [255, 20, 147]   # Pink
+
+  monochrome:
+    C: [255, 255, 255]
+    D: [220, 220, 220]
+    E: [180, 180, 180]
+    F: [140, 140, 140]
+    G: [100, 100, 100]
+    A: [60, 60, 60]
+    B: [20, 20, 20]
+
+# ⚡ NEW: MACROS
+# Define button combos that trigger special actions
+macros:
+  rainbow_mode:
+    trigger: [[0,0], [8,0]]  # Press top-left and top-right together
+    action: play_animation('rainbow_wave')
+
+  theme_ocean:
+    trigger: [[0,1]]
+    action: apply_theme('ocean')
+
+  theme_sunset:
+    trigger: [[1,1]]
+    action: apply_theme('sunset')
+
+  theme_candy:
+    trigger: [[2,1]]
+    action: apply_theme('candy')
+
+  play_lullaby:
+    trigger: [[4,4]]  # Center button
+    action: play_progression('lullaby')
+
+  sparkle_effect:
+    trigger: [[8,8]]  # Bottom-right corner
+    action: play_animation('sparkle')
+
+# 💫 NEW: LIGHT SHOWS
+# Synchronized sequences for performances
+light_shows:
+  baby_birthday:
+    duration: 10.0
+    sequence:
+      - time: 0.0
+        action: play_animation('rainbow_wave')
+      - time: 3.0
+        action: play_progression('happy')
+      - time: 6.0
+        action: apply_theme('candy')
+      - time: 8.0
+        action: play_animation('sparkle')
+
+  bedtime:
+    duration: 5.0
+    sequence:
+      - time: 0.0
+        action: apply_theme('ocean')
+      - time: 1.0
+        action: play_animation('breathing')
+      - time: 3.0
+        action: play_progression('lullaby')
+
+# 🎚️ NEW: DYNAMIC BEHAVIORS
+# Buttons that change behavior based on context
+dynamic_buttons:
+  mode_switcher:
+    position: [0,0]
+    behaviors:
+      - condition: time_of_day('morning')
+        action: apply_theme('sunset')
+      - condition: time_of_day('night')
+        action: apply_theme('ocean')
+
+# 🔊 AUDIO EFFECTS (from audio editor)
+audio_effects:
+  reverb:
+    enabled: true
+    mix: 30
+    room_size: 50
+
+  delay:
+    enabled: false
+    mix: 20
+    time: 0.5
+
+  filter:
+    enabled: false
+    cutoff: 1000
+    resonance: 0
+
+# 🎼 ADVANCED AUDIO
+# Multi-waveform support
+waveforms:
+  default: sine
+  notes:
+    C: sine
+    D: square
+    E: triangle
+    F: sawtooth
+    G: sine
+    A: square
+    B: triangle
+
+# ADSR envelopes per note
+envelopes:
+  default:
+    attack: 0.1
+    decay: 0.2
+    sustain: 0.7
+    release: 0.3
+
+  C:  # Punchy
+    attack: 0.01
+    decay: 0.1
+    sustain: 0.5
+    release: 0.1
+
+  G:  # Soft
+    attack: 0.3
+    decay: 0.5
+    sustain: 0.8
+    release: 0.5

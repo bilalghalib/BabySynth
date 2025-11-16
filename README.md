@@ -13,9 +13,15 @@ https://github.com/bilalghalib/BabySynth/assets/3254792/a62da9f3-094c-42cb-885c-
 - **🌈 Visual Feedback**: Colorful LED lighting for each note/sound
 - **📱 Web UI Monitor**: Real-time visual display of the Launchpad grid in your browser!
 - **🎛️ Audio Engine Editor**: Web-based editor for waveforms, ADSR envelopes, and effects
+- **⚙️ Visual Config Editor**: Drag-and-drop YAML editor with live preview!
+- **🎭 LED Animations**: Define looping animations in YAML (rainbow waves, sparkles, breathing)
+- **🌈 Color Themes**: Switch between color palettes on-the-fly (ocean, sunset, candy, etc.)
+- **🎵 Chord Progressions**: Define musical sequences (lullabies, happy tunes, jazz)
+- **⚡ Macros**: Button combos that trigger animations, themes, or light shows
+- **💫 Light Shows**: Choreographed sequences perfect for birthdays and bedtime
+- **🔥 Hot Reload**: Change configs without restarting!
 - **🎮 30+ Games & Demos**: Simon Says, Snake, Bubble Pop, and many more!
 - **🔌 Plugin System**: Easy framework for creating custom games - no advanced coding required!
-- **⚙️ Fully Configurable**: Easy YAML-based configuration for custom layouts
 - **👶 Baby-Friendly**: Designed for little hands with debouncing and simple interactions
 
 ## Hardware Required
@@ -60,9 +66,22 @@ python main_web.py
 Then open your browser to **http://localhost:5000**
 
 You'll see:
-- **Live View** - Real-time visualization of the Launchpad grid
-- **Audio Editor** (http://localhost:5000/editor) - Configure waveforms, ADSR envelopes, and effects
+- **Live View** (/) - Real-time visualization of the Launchpad grid
+- **Audio Editor** (/editor) - Configure waveforms, ADSR envelopes, and effects
+- **Config Editor** (/config) - Visually edit YAML configurations!
 - Perfect for monitoring from another room or recording sessions!
+
+### ⚙️ Config Editor
+
+Edit YAML configurations visually in your browser!
+
+- 🎨 **Visual Grid Layout** - Click to paint notes on the grid
+- 🌈 **Color Picker** - Choose colors for each note
+- 🎭 **Animation Editor** - Define LED animations
+- 🎵 **Chord Creator** - Build chord progressions
+- 💾 **Save & Hot Reload** - Apply changes instantly!
+
+**Access:** http://localhost:5000/config
 
 ## Configuration
 

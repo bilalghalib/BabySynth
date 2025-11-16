@@ -1,0 +1,124 @@
+# BabySynth Bedtime Mode 🌙
+# Soft colors, gentle animations, soothing sounds
+
+name: "Bedtime"
+
+models:
+  gentle_grid:
+    layout: |
+      xxxxxxxxx
+      xCCCCCCCx
+      xCDDDDCCx
+      xCDEEDCCx
+      xCDEEDCCx
+      xCDDDDCCx
+      xCCCCCCCx
+      xxxxxxxxx
+      xxxxxxxxx
+
+scales:
+  C_major: [C, D, E, F, G]  # Just peaceful notes
+
+colors:
+  C: [30, 50, 100]    # Soft blue
+  D: [50, 70, 120]    # Medium blue
+  E: [70, 90, 140]    # Light blue
+  F: [40, 60, 110]    # Sea blue
+  G: [60, 80, 130]    # Sky blue
+
+debounce: true
+
+# Gentle animations
+animations:
+  soft_breathing:
+    duration: 4.0
+    loop: true
+    frames:
+      - delay: 1.0
+        brightness: 0.2
+      - delay: 1.0
+        brightness: 0.5
+      - delay: 1.0
+        brightness: 0.3
+      - delay: 1.0
+        brightness: 0.2
+
+  twinkling_stars:
+    duration: 3.0
+    loop: true
+    frames:
+      - delay: 0.5
+        pattern:
+          - [[30,50,100], [0,0,0], [0,0,0], [30,50,100], [0,0,0], [0,0,0], [30,50,100], [0,0,0], [0,0,0]]
+      - delay: 0.5
+        pattern:
+          - [[0,0,0], [30,50,100], [0,0,0], [0,0,0], [30,50,100], [0,0,0], [0,0,0], [30,50,100], [0,0,0]]
+
+  gentle_wave:
+    duration: 5.0
+    loop: true
+    frames:
+      - delay: 0.5
+        scroll_direction: up
+        color: [30, 50, 100]
+
+chord_progressions:
+  lullaby: [C, G, F, C]
+  sleepy_time: [C, F, C, G, C]
+
+themes:
+  moonlight:
+    C: [30, 30, 80]
+    D: [40, 40, 90]
+    E: [50, 50, 100]
+    F: [35, 35, 85]
+    G: [45, 45, 95]
+
+  starlight:
+    C: [50, 50, 50]
+    D: [70, 70, 70]
+    E: [90, 90, 90]
+    F: [60, 60, 60]
+    G: [80, 80, 80]
+
+macros:
+  start_lullaby:
+    trigger: [[4,4]]
+    action: play_progression('lullaby')
+
+  breathing_lights:
+    trigger: [[3,3]]
+    action: play_animation('soft_breathing')
+
+  twinkle:
+    trigger: [[5,5]]
+    action: play_animation('twinkling_stars')
+
+light_shows:
+  goodnight:
+    duration: 10.0
+    sequence:
+      - time: 0.0
+        action: apply_theme('moonlight')
+      - time: 1.0
+        action: play_animation('gentle_wave')
+      - time: 3.0
+        action: play_progression('lullaby')
+      - time: 7.0
+        action: play_animation('soft_breathing')
+      - time: 9.0
+        action: fade_to_black(duration=2.0)
+
+# Bedtime-specific settings
+audio_effects:
+  reverb:
+    enabled: true
+    mix: 50
+    room_size: 80  # Big room for echoes
+
+envelopes:
+  default:  # Very soft and slow
+    attack: 0.5
+    decay: 1.0
+    sustain: 0.8
+    release: 1.5

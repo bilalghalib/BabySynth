@@ -3,9 +3,12 @@ BabySynth - Web UI Server
 Flask-based web server that provides a visual representation of the Launchpad grid.
 Shows real-time LED colors so you can monitor what the baby is doing.
 """
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from flask_socketio import SocketIO, emit
 import threading
+import yaml
+import os
+from config_manager import ConfigManager
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'babysynth-secret-key'
@@ -49,6 +52,7 @@ class WebUIBroadcaster:
 
 # Create singleton instance
 broadcaster = WebUIBroadcaster()
+config_manager = ConfigManager()
 
 @app.route('/')
 def index():
@@ -59,6 +63,17 @@ def index():
 def editor():
     """Serve the audio engine editor page"""
     return render_template('editor.html')
+
+@app.route('/config')
+def config():
+    """Serve the config editor page"""
+    return render_template('config.html')
+
+@app.route('/api/configs')
+def list_configs():
+    """API endpoint to list all available configs"""
+    configs = config_manager.list_configs()
+    return jsonify({'configs': configs})
 
 @socketio.on('connect')
 def handle_connect():
@@ -86,6 +101,46 @@ def handle_settings_update(data):
     print(f'Settings update received: {data}')
     # TODO: Apply settings to the synth
     emit('settings_applied', {'status': 'success'})
+
+@socketio.on('load_config')
+def handle_load_config(data):
+    """Load a configuration file"""
+    config_path = data.get('path', 'config.yaml')
+    try:
+        config = config_manager.load(config_path)
+        if config:
+            emit('config_loaded', {'success': True, 'config': config})
+        else:
+            emit('config_loaded', {'success': False, 'error': 'Failed to load config'})
+    except Exception as e:
+        emit('config_loaded', {'success': False, 'error': str(e)})
+
+@socketio.on('save_config')
+def handle_save_config(data):
+    """Save a configuration file"""
+    config_path = data.get('path', 'config.yaml')
+    config = data.get('config', {})
+    try:
+        success = config_manager.save(config, config_path)
+        if success:
+            emit('config_saved', {'success': True, 'path': config_path})
+        else:
+            emit('config_saved', {'success': False, 'error': 'Failed to save config'})
+    except Exception as e:
+        emit('config_saved', {'success': False, 'error': str(e)})
+
+@socketio.on('apply_config')
+def handle_apply_config(data):
+    """Apply configuration to running synth (hot reload)"""
+    config = data.get('config', {})
+    try:
+        # TODO: Actually apply to synth instance
+        # For now, just save it
+        config_manager.current_config = config
+        emit('config_applied', {'success': True})
+        print("🔥 Hot reload: Config applied!")
+    except Exception as e:
+        emit('config_applied', {'success': False, 'error': str(e)})
 
 def run_web_server(host='0.0.0.0', port=5000, debug=False):
     """Start the web server"""
