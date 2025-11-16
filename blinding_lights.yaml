@@ -1,0 +1,140 @@
+name: "Blinding Lights"
+artist: "The Weeknd"
+tempo: 171
+key: "F minor"
+root_note: 349.23  # F4
+
+scale:
+  name: "Natural Minor"
+  intervals: [0, 2, 3, 5, 7, 8, 10, 12, 14, 15, 17, 19, 20, 22, 24]
+
+chords:
+  Fm: [0, 3, 7]
+  Cm: [7, 10, 14]
+  Eb: [10, 14, 17]
+  Bb: [5, 9, 12]
+  Ab: [3, 7, 10]
+
+drums:
+  kick:
+    type: "kick"
+    freq: 45
+    decay: 0.3
+    pitch_decay: 50
+    pitch_mod: 4
+    env_decay: 12
+    volume: 1.0
+    gain: 1.5
+  snare:
+    type: "snare"
+    freq: 220
+    decay: 0.1
+    env_decay: 30
+    volume: 0.8
+  hihat:
+    type: "hihat"
+    freq: 10000
+    decay: 0.02
+    env_decay: 150
+    volume: 0.5
+  cymbal:
+    type: "cymbal"
+    freq: 700
+    decay: 1.0
+    env_decay: 15
+    volume: 0.6
+  clap:
+    type: "clap"
+    freq: 2000
+    decay: 0.08
+    bursts: 4
+    env_decay: 40
+    volume: 0.7
+
+lead_sound:
+  type: "synth_lead"
+  harmonics: [1, 0.7, 0.5, 0.3, 0.2]
+  envelope: "adsr"
+  attack: 0.002
+  decay: 0.1
+  sustain: 0.8
+  release: 0.3
+  filter:
+    cutoff: 0.8
+  volume: 0.8
+
+chord_sound:
+  type: "synth_pad"
+  harmonics: [1, 0.8, 0.6, 0.4]
+  envelope: "adsr"
+  attack: 0.1
+  decay: 0.3
+  sustain: 0.7
+  release: 0.5
+  volume: 0.6
+
+signature_sounds:
+  - type: "riff"
+    name: "Synth Arp"
+    notes:
+      - {interval: 0, duration: 0.0625}
+      - {interval: 7, duration: 0.0625}
+      - {interval: 12, duration: 0.0625}
+      - {interval: 15, duration: 0.0625}
+      - {interval: 12, duration: 0.0625}
+      - {interval: 7, duration: 0.0625}
+    sound:
+      harmonics: [1, 0.5]
+      envelope: "percussive"
+      decay_rate: 20
+      filter:
+        cutoff: 0.6
+        
+layout:
+  scale_pads:
+    positions:
+      # 80s synth-optimized layout
+      - {x: 0, y: 5, note: 0, color: [255, 0, 127]}
+      - {x: 1, y: 5, note: 3, color: [255, 0, 255]}
+      - {x: 2, y: 5, note: 5, color: [127, 0, 255]}
+      - {x: 3, y: 5, note: 7, color: [0, 0, 255]}
+      - {x: 4, y: 5, note: 8, color: [0, 127, 255]}
+      - {x: 5, y: 5, note: 10, color: [0, 255, 255]}
+      - {x: 6, y: 5, note: 12, color: [0, 255, 127]}
+      - {x: 7, y: 5, note: 15, color: [127, 255, 0]}
+      # Synth lead row
+      - {x: 0, y: 4, note: 2, color: [200, 0, 100]}
+      - {x: 1, y: 4, note: 3, color: [255, 0, 255]}
+      - {x: 2, y: 4, note: 7, color: [0, 0, 255]}
+      - {x: 3, y: 4, note: 8, color: [0, 127, 255]}
+      - {x: 4, y: 4, note: 10, color: [0, 255, 255]}
+      - {x: 5, y: 4, note: 12, color: [0, 255, 127]}
+      - {x: 6, y: 4, note: 14, color: [100, 255, 0]}
+      - {x: 7, y: 4, note: 17, color: [255, 255, 0]}
+      # Chord triggers
+      - {x: 0, y: 3, note: 0, chord: "Fm", color: [100, 0, 50]}
+      - {x: 1, y: 3, note: 7, chord: "Cm", color: [50, 0, 100]}
+      - {x: 2, y: 3, note: 10, chord: "Eb", color: [0, 50, 100]}
+      - {x: 3, y: 3, note: 5, chord: "Bb", color: [100, 50, 0]}
+      - {x: 4, y: 3, note: 3, chord: "Ab", color: [100, 0, 100]}
+      
+  drum_pads:
+    positions:
+      - {x: 0, y: 7, drum: "kick", color: [255, 0, 127]}
+      - {x: 1, y: 7, drum: "snare", color: [255, 0, 255]}
+      - {x: 2, y: 7, drum: "hihat", color: [127, 0, 255]}
+      - {x: 3, y: 7, drum: "cymbal", color: [0, 127, 255]}
+      - {x: 0, y: 6, drum: "kick", color: [255, 0, 127]}
+      - {x: 1, y: 6, drum: "clap", color: [255, 127, 255]}
+      - {x: 2, y: 6, drum: "hihat", color: [127, 0, 255]}
+      - {x: 3, y: 6, drum: "cymbal", color: [0, 127, 255]}
+      
+  signature_pads:
+    positions:
+      - {x: 8, y: 7, sound_index: 0, color: [255, 0, 255]}
+      
+  controls:
+    - {x: 0, y: 0, function: "octave_down", color: [127, 0, 127]}
+    - {x: 1, y: 0, function: "octave_up", color: [127, 0, 127]}
+    - {x: 6, y: 0, function: "chord_mode", color: [255, 0, 255]}
+    - {x: 7, y: 0, function: "arpeggiator", color: [255, 127, 255]}

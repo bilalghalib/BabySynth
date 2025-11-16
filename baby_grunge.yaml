@@ -1,0 +1,128 @@
+name: "Baby Grunge Beats"
+tempo: 115
+key: "E major"
+root_note: 82.41  # E2 - nice and low for grunge
+
+scale:
+  name: "Major"
+  intervals: [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21, 23, 24]
+
+chords:
+  E: [0, 4, 7]
+  A: [5, 9, 12]
+  B: [7, 11, 14]
+  C#m: [4, 7, 11]
+  F#m: [2, 5, 9]
+
+drums:
+  kick:
+    type: "kick"
+    freq: 55
+    decay: 0.5
+    volume: 1.1
+    gain: 1.5
+  snare:
+    type: "snare"
+    freq: 200
+    decay: 0.18
+    volume: 1.0
+  hihat:
+    type: "hihat"
+    freq: 8500
+    decay: 0.05
+    volume: 0.65
+  clap:
+    type: "clap"
+    freq: 1800
+    decay: 0.12
+    bursts: 3
+    volume: 0.75
+    gain: 1.0
+
+beat_patterns:
+  # Grunge-style rock patterns - powerful and dynamic
+  Rock_Power:
+    drums:
+      kick:    [1,0,0,0, 0,0,1,0, 1,0,0,0, 0,0,1,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  Heavy_Groove:
+    drums:
+      kick:    [1,0,0,1, 0,0,1,0, 1,0,0,0, 0,0,1,1]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  Punk_Energy:
+    drums:
+      kick:    [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  Grunge_Stomp:
+    drums:
+      kick:    [1,0,0,0, 1,0,0,0, 1,0,1,0, 0,0,0,0]
+      snare:   [0,0,0,0, 1,0,0,1, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  Slow_Heavy:
+    drums:
+      kick:    [1,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,1,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  Dynamic_Rock:
+    drums:
+      kick:    [1,0,0,0, 0,1,1,0, 1,0,0,0, 0,0,1,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,1,0, 1,0,0,0]
+      hihat:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  Baby_Boom:
+    drums:
+      kick:    [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  Happy_Clap:
+    drums:
+      kick:    [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0]
+      snare:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      hihat:   [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      clap:    [0,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0]
+
+lead_sound:
+  type: "distorted_lead"
+  harmonics: [1, 0.8, 0.6, 0.4, 0.2]
+  envelope: "adsr"
+  attack: 0.01
+  decay: 0.1
+  sustain: 0.8
+  release: 0.3
+  volume: 0.75
+
+bass_sound:
+  type: "heavy_bass"
+  harmonics: [1, 0.8, 0.5, 0.3]
+  envelope: "adsr"
+  attack: 0.01
+  decay: 0.1
+  sustain: 0.7
+  release: 0.2
+  volume: 0.9
+
+chord_sound:
+  type: "power_chords"
+  harmonics: [1, 0.7, 0.5, 0.4]
+  envelope: "adsr"
+  attack: 0.02
+  decay: 0.15
+  sustain: 0.8
+  release: 0.4
+  volume: 0.65

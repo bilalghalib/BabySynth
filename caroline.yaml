@@ -1,0 +1,139 @@
+name: "Sweet Caroline"
+artist: "Neil Diamond"
+tempo: 128
+key: "E major"
+root_note: 329.63  # E4
+
+scale:
+  name: "Major"
+  intervals: [0, 2, 4, 5, 7, 9, 11, 12]  # Major scale
+
+chords:
+  E: [0, 4, 7]
+  A: [5, 9, 12]
+  B: [7, 11, 14]
+  C#m: [9, 12, 16]
+  F#m: [2, 5, 9]
+  G#m: [4, 7, 11]
+
+# Tempo speeds up during chorus
+tempo_changes:
+  gradual_speedup:
+    rate: 0.5  # BPM per bar
+    max_tempo: 140
+    
+drums:
+  kick:
+    type: "kick"
+    freq: 50
+    decay: 0.5
+    pitch_decay: 30
+    pitch_mod: 3
+    env_decay: 8
+    volume: 1.0
+    gain: 1.3
+  snare:
+    type: "snare"
+    freq: 190
+    decay: 0.15
+    env_decay: 20
+    volume: 0.8
+  hihat:
+    type: "hihat"
+    freq: 8000
+    decay: 0.03
+    env_decay: 120
+    volume: 0.5
+  crash:
+    type: "crash"
+    freq: 400
+    decay: 2.0
+    env_decay: 10
+    volume: 0.7
+  tom:
+    type: "tom"
+    freq: 120
+    decay: 0.3
+    env_decay: 12
+    volume: 0.8
+  clap:
+    type: "clap"
+    freq: 1800
+    decay: 0.08
+    bursts: 3
+    env_decay: 35
+    volume: 0.7
+  cowbell:
+    type: "cowbell"
+    freq: 800
+    decay: 0.2
+    env_decay: 30
+    volume: 0.6
+
+beat_patterns:
+  - name: "Verse"
+    drums:
+      kick:    [1,0,0,0, 0,0,1,0, 1,0,0,0, 0,0,0,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      crash:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      tom:     [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      cowbell: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      
+  - name: "Pre-Chorus Build"
+    drums:
+      kick:    [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,1,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1]
+      crash:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      tom:     [0,0,0,0, 0,0,0,0, 0,1,0,0, 0,0,1,0]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      cowbell: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      
+  - name: "Chorus (BA BA BA!)"
+    drums:
+      kick:    [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      crash:   [1,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      tom:     [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      clap:    [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,1,0]
+      cowbell: [0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0]
+      
+  - name: "Stadium Clap"
+    drums:
+      kick:    [1,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,0,0]
+      snare:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      hihat:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      crash:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      tom:     [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      clap:    [1,0,0,0, 1,0,1,0, 1,0,0,0, 1,0,1,0]
+      cowbell: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+lead_sound:
+  type: "warm_lead"
+  harmonics: [1, 0.5, 0.3, 0.2]
+  envelope: "adsr"
+  attack: 0.02
+  decay: 0.1
+  sustain: 0.8
+  release: 0.3
+  volume: 0.8
+
+bass_sound:
+  type: "bass"
+  harmonics: [1, 0.7, 0.4]
+  envelope: "pluck"
+  decay_rate: 4
+  volume: 0.9
+
+chord_sound:
+  type: "piano"
+  harmonics: [1, 0.6, 0.4, 0.3, 0.2]
+  envelope: "adsr"
+  attack: 0.01
+  decay: 0.2
+  sustain: 0.7
+  release: 0.3
+  volume: 0.6

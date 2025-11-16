@@ -1,0 +1,236 @@
+name: "Baby Music Player"
+tempo: 110
+key: "A minor"
+root_note: 110.0  # A2 - nice low bass frequency
+
+scale:
+  name: "Minor Pentatonic"
+  intervals: [0, 3, 5, 7, 10, 12, 15, 17, 19, 22, 24]
+
+chords:
+  Am: [0, 3, 7]
+  Dm: [5, 8, 12]
+  Em: [7, 10, 14]
+
+drums:
+  kick:
+    type: "kick"
+    freq: 50
+    decay: 0.4
+    volume: 1.0
+    gain: 1.5
+  snare:
+    type: "snare"
+    freq: 200
+    decay: 0.15
+    volume: 0.85
+  hihat:
+    type: "hihat"
+    freq: 9000
+    decay: 0.04
+    volume: 0.55
+  clap:
+    type: "clap"
+    freq: 1800
+    decay: 0.1
+    bursts: 4
+    volume: 0.75
+    gain: 1.0
+
+beat_patterns:
+  # SIMPLE PATTERNS
+  Baby_Boom:
+    drums:
+      kick:    [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  Big_Stomp:
+    drums:
+      kick:    [1,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,0,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1]
+      clap:    [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+
+  # FUNKY PATTERNS
+  Funky_Chicken:
+    drums:
+      kick:    [1,0,0,1, 0,0,1,0, 0,1,0,0, 1,0,0,0]
+      snare:   [0,0,0,0, 1,0,0,1, 0,0,0,0, 1,0,1,0]
+      hihat:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  Disco_Party:
+    drums:
+      kick:    [1,0,0,0, 1,0,1,0, 1,0,0,0, 1,0,1,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1]
+      clap:    [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+
+  # FAST & ENERGETIC
+  Fast_Dance:
+    drums:
+      kick:    [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  Happy_Clap:
+    drums:
+      kick:    [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0]
+      snare:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      hihat:   [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      clap:    [0,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0]
+
+  # UNIQUE PATTERNS
+  Skippy_Beat:
+    drums:
+      kick:    [1,0,0,1, 0,0,0,0, 1,0,0,1, 0,0,0,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,1,0,0]
+      hihat:   [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  Marching_Band:
+    drums:
+      kick:    [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      snare:   [0,1,0,1, 0,1,0,1, 0,1,0,1, 0,1,0,1]
+      hihat:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      clap:    [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0]
+
+# Bass riffs - all in A minor for harmony
+bass_riffs:
+  Walking_Bass:
+    notes:
+      - {semitone: 0, duration: 4}   # A
+      - {semitone: 2, duration: 4}   # B
+      - {semitone: 3, duration: 4}   # C
+      - {semitone: 5, duration: 4}   # D
+
+  Power_Bass:
+    notes:
+      - {semitone: 0, duration: 2}   # A
+      - {semitone: 0, duration: 2}   # A
+      - {semitone: 12, duration: 4}  # A (octave)
+      - {semitone: 7, duration: 4}   # E
+      - {semitone: 5, duration: 4}   # D
+
+  Groove_Bass:
+    notes:
+      - {semitone: 0, duration: 2}   # A
+      - {semitone: 0, duration: 1}   # A
+      - {semitone: 0, duration: 1, rest: 2}  # A
+      - {semitone: 7, duration: 2}   # E
+      - {semitone: 5, duration: 4}   # D
+      - {semitone: 3, duration: 4}   # C
+
+  Simple_Rock:
+    notes:
+      - {semitone: 0, duration: 8}   # A
+      - {semitone: 3, duration: 8}   # C
+
+  Deep_Pulse:
+    notes:
+      - {semitone: 0, duration: 4}   # A
+      - {semitone: 0, duration: 4}   # A
+      - {semitone: 0, duration: 4}   # A
+      - {semitone: 0, duration: 4}   # A
+
+  Funky_Line:
+    notes:
+      - {semitone: 0, duration: 1}   # A
+      - {semitone: 0, duration: 1, rest: 1}
+      - {semitone: 7, duration: 1}   # E
+      - {semitone: 7, duration: 1, rest: 1}
+      - {semitone: 5, duration: 2}   # D
+      - {semitone: 3, duration: 2}   # C
+      - {semitone: 5, duration: 2}   # D
+      - {semitone: 0, duration: 4}   # A
+
+  Bouncy_Bass:
+    notes:
+      - {semitone: 0, duration: 2}   # A
+      - {semitone: 12, duration: 2}  # A high
+      - {semitone: 0, duration: 2}   # A
+      - {semitone: 5, duration: 2}   # D
+      - {semitone: 7, duration: 2}   # E
+      - {semitone: 3, duration: 2}   # C
+      - {semitone: 0, duration: 4}   # A
+
+  Steady_Rock:
+    notes:
+      - {semitone: 0, duration: 4}   # A
+      - {semitone: 5, duration: 4}   # D
+      - {semitone: 7, duration: 4}   # E
+      - {semitone: 5, duration: 4}   # D
+
+# Melodies - simple and pleasant
+melodies:
+  Happy_Arp:
+    notes:
+      - {semitone: 12, duration: 2}  # A
+      - {semitone: 15, duration: 2}  # C
+      - {semitone: 19, duration: 2}  # E
+      - {semitone: 24, duration: 2}  # A
+      - {semitone: 19, duration: 2}  # E
+      - {semitone: 15, duration: 2}  # C
+      - {semitone: 12, duration: 4}  # A
+
+  Simple_Melody:
+    notes:
+      - {semitone: 12, duration: 4}  # A
+      - {semitone: 15, duration: 4}  # C
+      - {semitone: 17, duration: 4}  # D
+      - {semitone: 15, duration: 4}  # C
+
+  Bright_Notes:
+    notes:
+      - {semitone: 19, duration: 2}  # E
+      - {semitone: 17, duration: 2}  # D
+      - {semitone: 15, duration: 2}  # C
+      - {semitone: 12, duration: 2}  # A
+      - {semitone: 15, duration: 2}  # C
+      - {semitone: 19, duration: 2}  # E
+      - {semitone: 24, duration: 4}  # A
+
+  Gentle_Rise:
+    notes:
+      - {semitone: 12, duration: 4}  # A
+      - {semitone: 14, duration: 4}  # B
+      - {semitone: 15, duration: 4}  # C
+      - {semitone: 17, duration: 4}  # D
+
+  Playful:
+    notes:
+      - {semitone: 12, duration: 2}  # A
+      - {semitone: 12, duration: 2}  # A
+      - {semitone: 19, duration: 2}  # E
+      - {semitone: 19, duration: 2}  # E
+      - {semitone: 17, duration: 2}  # D
+      - {semitone: 15, duration: 2}  # C
+      - {semitone: 12, duration: 4}  # A
+
+  Calm_Flow:
+    notes:
+      - {semitone: 15, duration: 8}  # C
+      - {semitone: 17, duration: 8}  # D
+
+  Sparkle:
+    notes:
+      - {semitone: 24, duration: 1}  # A high
+      - {semitone: 19, duration: 1}  # E
+      - {semitone: 15, duration: 1}  # C
+      - {semitone: 12, duration: 1}  # A
+      - {semitone: 15, duration: 1}  # C
+      - {semitone: 19, duration: 1}  # E
+      - {semitone: 24, duration: 2}  # A high
+      - {semitone: 19, duration: 8}  # E
+
+  Sweet_Song:
+    notes:
+      - {semitone: 12, duration: 3}  # A
+      - {semitone: 15, duration: 1}  # C
+      - {semitone: 17, duration: 3}  # D
+      - {semitone: 19, duration: 1}  # E
+      - {semitone: 17, duration: 4}  # D
+      - {semitone: 15, duration: 4}  # C

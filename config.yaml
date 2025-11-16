@@ -1,27 +1,27 @@
 name: ADGC
 models:
-  ADGC:
-    layout: |
-      xxxxxxxxx
-      AAAADDDDx
-      AAAADDDDx
-      AAAADDDDx
-      AAAADDDDx
-      GGGGCCCCx
-      GGGGCCCCx
-      GGGGCCCCx
-      GGGGCCCCx
   FILES:
     layout: |
       xxxxxxxxx
-      AAAABBBBx
-      AAAABBBBx
-      CCCCDDDDx
-      EEEEFFFFx
-      HHHHZZZZx
-      HHHHZZZZx
-      HHHHZZZZx
-      HHHHZZZZx
+      AAAADDDDx
+      AAAADDDDx
+      AAAADDDDx
+      AAAADDDDx
+      GGGGCCCCx
+      GGGGCCCCx
+      GGGGCCCCx
+      GGGGCCCCx
+  ADGC:
+    layout: |
+      xxxxxxxxx
+      ABCDEFGAx
+      BCDEFGABx
+      CDEFGABCx
+      DEFGABCDx
+      ABCDEFGAx
+      BCDEFGABx
+      CDEFGABCx
+      DEFGABCDx
 
 scales:
   C_major: [C, D, E, F, G, A, B]

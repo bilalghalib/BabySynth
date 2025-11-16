@@ -1,0 +1,181 @@
+name: "Drum Kit Sequencer"
+artist: "BabySynth"
+tempo: 120
+key: "C"
+root_note: 261.63  # C4
+
+scale:
+  name: "Minor Pentatonic"
+  intervals: [0, 3, 5, 7, 10, 12, 15, 17, 19, 22, 24]
+
+chords:
+  Cm: [0, 3, 7]
+  Fm: [5, 8, 12]
+  Gm: [7, 10, 14]
+
+drums:
+  kick:
+    type: "kick"
+    freq: 50
+    decay: 0.4
+    pitch_decay: 40
+    pitch_mod: 3.5
+    env_decay: 10
+    volume: 1.0
+    gain: 1.4
+  snare:
+    type: "snare"
+    freq: 200
+    decay: 0.15
+    env_decay: 25
+    volume: 0.85
+  hihat:
+    type: "hihat"
+    freq: 9000
+    decay: 0.04
+    env_decay: 120
+    volume: 0.55
+  crash:
+    type: "crash"
+    freq: 550
+    decay: 2.0
+    env_decay: 12
+    volume: 0.65
+  tom:
+    type: "tom"
+    freq: 110
+    decay: 0.35
+    env_decay: 12
+    volume: 0.8
+  clap:
+    type: "clap"
+    freq: 1800
+    decay: 0.1
+    bursts: 4
+    env_decay: 35
+    volume: 0.75
+  cowbell:
+    type: "cowbell"
+    freq: 850
+    decay: 0.2
+    env_decay: 28
+    volume: 0.65
+
+beat_patterns:
+  # Classic patterns
+  - name: "Four on Floor"
+    drums:
+      kick:    [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      crash:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      tom:     [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      cowbell: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  # Electronic/House
+  - name: "House Party"
+    drums:
+      kick:    [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1]
+      crash:   [1,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      tom:     [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      clap:    [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      cowbell: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  # Hip-Hop
+  - name: "Boom Bap"
+    drums:
+      kick:    [1,0,0,0, 0,0,1,0, 0,0,0,0, 0,0,1,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      crash:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      tom:     [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      cowbell: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  # Trap
+  - name: "Trap Heat"
+    drums:
+      kick:    [1,0,0,1, 0,0,1,0, 0,1,0,0, 1,0,0,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1]
+      crash:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      tom:     [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,1,0]
+      cowbell: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  # Disco/Funk
+  - name: "Disco Fever"
+    drums:
+      kick:    [1,0,0,0, 1,0,1,0, 1,0,0,0, 1,0,1,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1]
+      crash:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      tom:     [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      cowbell: [0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0]
+
+  # Breakbeat
+  - name: "Funky Break"
+    drums:
+      kick:    [1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,0]
+      snare:   [0,0,0,0, 1,0,0,1, 0,0,0,0, 1,0,1,0]
+      hihat:   [1,0,1,0, 1,0,1,0, 1,0,1,1, 1,0,1,0]
+      crash:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      tom:     [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      cowbell: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  # Drum & Bass
+  - name: "DnB Roller"
+    drums:
+      kick:    [1,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,0,0]
+      snare:   [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      hihat:   [1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1]
+      crash:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      tom:     [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      clap:    [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      cowbell: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+
+  # Latin/Salsa
+  - name: "Latin Groove"
+    drums:
+      kick:    [1,0,0,0, 0,0,1,0, 0,0,1,0, 0,0,0,0]
+      snare:   [0,0,1,0, 0,0,0,0, 0,0,1,0, 0,0,0,0]
+      hihat:   [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      crash:   [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      tom:     [0,0,0,1, 0,0,0,0, 0,0,0,1, 0,0,0,0]
+      clap:    [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0]
+      cowbell: [1,0,0,0, 1,0,1,0, 1,0,0,0, 1,0,1,0]
+
+lead_sound:
+  type: "lead"
+  harmonics: [1, 0.5, 0.3, 0.2]
+  envelope: "adsr"
+  attack: 0.01
+  decay: 0.1
+  sustain: 0.7
+  release: 0.2
+  volume: 0.7
+
+bass_sound:
+  type: "bass"
+  harmonics: [1, 0.7, 0.4]
+  envelope: "adsr"
+  attack: 0.01
+  decay: 0.1
+  sustain: 0.6
+  release: 0.1
+  volume: 0.8
+
+chord_sound:
+  type: "pad"
+  harmonics: [1, 0.6, 0.4, 0.3]
+  envelope: "adsr"
+  attack: 0.05
+  decay: 0.2
+  sustain: 0.7
+  release: 0.3
+  volume: 0.6

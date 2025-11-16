@@ -1,0 +1,146 @@
+name: "Toxic"
+artist: "Britney Spears"
+tempo: 143
+key: "C minor"
+root_note: 261.63  # C4
+
+scale:
+  name: "Harmonic Minor"
+  intervals: [0, 2, 3, 5, 7, 8, 11, 12, 14, 15, 17, 19, 20, 23, 24]
+
+chords:
+  Cm: [0, 3, 7]
+  Fm: [5, 8, 12]
+  G: [7, 11, 14]
+  Ab: [8, 12, 15]
+  Bb: [10, 14, 17]
+
+drums:
+  kick:
+    type: "kick"
+    freq: 50
+    decay: 0.5
+    pitch_decay: 35
+    pitch_mod: 3
+    env_decay: 8
+    volume: 0.9
+    gain: 1.2
+  snare:
+    type: "snare" 
+    freq: 150
+    decay: 0.15
+    env_decay: 20
+    volume: 0.8
+  hihat:
+    type: "hihat"
+    freq: 8000
+    decay: 0.05
+    env_decay: 100
+    volume: 0.6
+  cymbal:
+    type: "cymbal"
+    freq: 500
+    decay: 1.5
+    env_decay: 12
+    volume: 0.7
+  clap:
+    type: "clap"
+    freq: 1500
+    decay: 0.1
+    bursts: 3
+    env_decay: 30
+    volume: 0.7
+
+lead_sound:
+  type: "lead"
+  harmonics: [1, 0.3, 0.2, 0.1]
+  envelope: "adsr"
+  attack: 0.01
+  decay: 0.1
+  sustain: 0.7
+  release: 0.2
+  vibrato:
+    rate: 5
+    depth: 0.02
+  volume: 0.7
+
+chord_sound:
+  type: "pad"
+  harmonics: [1, 0.5, 0.3]
+  envelope: "adsr"
+  attack: 0.05
+  decay: 0.2
+  sustain: 0.8
+  release: 0.3
+  volume: 0.5
+
+signature_sounds:
+  - type: "riff"
+    name: "Toxic Hook"
+    notes:
+      - {interval: 0, duration: 0.125}
+      - {interval: 3, duration: 0.125}
+      - {interval: 5, duration: 0.125}
+      - {interval: 3, duration: 0.125}
+    sound:
+      harmonics: [1, 0.5, 0.3]
+      envelope: "percussive"
+      decay_rate: 10
+      vibrato:
+        rate: 8
+        depth: 0.03
+  - type: "chord_stab"
+    chord: "Cm"
+    
+layout:
+  scale_pads:
+    positions:
+      # Bottom row - root notes
+      - {x: 0, y: 5, note: 0, color: [255, 0, 0]}
+      - {x: 1, y: 5, note: 3, color: [255, 127, 0]}
+      - {x: 2, y: 5, note: 5, color: [255, 255, 0]}
+      - {x: 3, y: 5, note: 7, color: [0, 255, 0]}
+      - {x: 4, y: 5, note: 8, color: [0, 255, 255]}
+      - {x: 5, y: 5, note: 11, color: [0, 0, 255]}
+      - {x: 6, y: 5, note: 12, color: [255, 0, 255]}
+      - {x: 7, y: 5, note: 15, color: [255, 255, 255]}
+      # Second row
+      - {x: 0, y: 4, note: 2, color: [200, 50, 0]}
+      - {x: 1, y: 4, note: 5, color: [255, 255, 0]}
+      - {x: 2, y: 4, note: 7, color: [0, 255, 0]}
+      - {x: 3, y: 4, note: 8, color: [0, 255, 255]}
+      - {x: 4, y: 4, note: 11, color: [0, 0, 255]}
+      - {x: 5, y: 4, note: 12, color: [255, 0, 255]}
+      - {x: 6, y: 4, note: 14, color: [255, 127, 0]}
+      - {x: 7, y: 4, note: 17, color: [255, 255, 255]}
+      # Third row - chord positions
+      - {x: 0, y: 3, note: 0, chord: "Cm", color: [100, 0, 0]}
+      - {x: 1, y: 3, note: 5, chord: "Fm", color: [0, 100, 0]}
+      - {x: 2, y: 3, note: 7, chord: "G", color: [0, 0, 100]}
+      - {x: 3, y: 3, note: 8, chord: "Ab", color: [100, 100, 0]}
+      - {x: 4, y: 3, note: 10, chord: "Bb", color: [100, 0, 100]}
+      - {x: 5, y: 3, note: 12, color: [255, 0, 255]}
+      - {x: 6, y: 3, note: 15, color: [255, 127, 0]}
+      - {x: 7, y: 3, note: 19, color: [255, 255, 255]}
+      
+  drum_pads:
+    positions:
+      - {x: 0, y: 7, drum: "kick", color: [255, 0, 0]}
+      - {x: 1, y: 7, drum: "snare", color: [255, 127, 0]}
+      - {x: 2, y: 7, drum: "hihat", color: [255, 255, 0]}
+      - {x: 3, y: 7, drum: "cymbal", color: [0, 255, 255]}
+      - {x: 0, y: 6, drum: "kick", color: [255, 0, 0]}
+      - {x: 1, y: 6, drum: "snare", color: [255, 127, 0]}
+      - {x: 2, y: 6, drum: "clap", color: [255, 0, 255]}
+      - {x: 3, y: 6, drum: "cymbal", color: [0, 255, 255]}
+      
+  signature_pads:
+    positions:
+      - {x: 8, y: 7, sound_index: 0, color: [127, 0, 127]}
+      - {x: 8, y: 6, sound_index: 1, color: [127, 0, 127]}
+      
+  controls:
+    - {x: 0, y: 0, function: "octave_down", color: [0, 0, 100]}
+    - {x: 1, y: 0, function: "octave_up", color: [0, 0, 100]}
+    - {x: 6, y: 0, function: "chord_mode", color: [100, 100, 0]}
+    - {x: 7, y: 0, function: "arpeggiator", color: [100, 0, 100]}

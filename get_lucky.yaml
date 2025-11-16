@@ -1,0 +1,132 @@
+name: "Get Lucky"
+artist: "Daft Punk"
+tempo: 116
+key: "F# minor"
+root_note: 369.99  # F#4
+
+scale:
+  name: "Dorian"
+  intervals: [0, 2, 3, 5, 7, 9, 10, 12, 14, 15, 17, 19, 21, 22, 24]
+
+chords:
+  F#m7: [0, 3, 7, 10]
+  Bm7: [5, 8, 12, 15]
+  E: [10, 14, 17]
+  A: [3, 7, 10]
+  D: [7, 11, 14]
+
+drums:
+  kick:
+    type: "kick"
+    freq: 55
+    decay: 0.4
+    pitch_decay: 40
+    pitch_mod: 2
+    env_decay: 10
+    volume: 0.9
+    gain: 1.3
+  snare:
+    type: "snare"
+    freq: 180
+    decay: 0.12
+    env_decay: 25
+    volume: 0.7
+  hihat:
+    type: "hihat"
+    freq: 9000
+    decay: 0.03
+    env_decay: 120
+    volume: 0.5
+  cymbal:
+    type: "cymbal"
+    freq: 600
+    decay: 2.0
+    env_decay: 10
+    volume: 0.6
+  tom:
+    type: "tom"
+    freq: 120
+    decay: 0.3
+    env_decay: 15
+    volume: 0.8
+
+lead_sound:
+  type: "funky_lead"
+  harmonics: [1, 0.6, 0.3, 0.2, 0.1]
+  envelope: "adsr"
+  attack: 0.005
+  decay: 0.05
+  sustain: 0.6
+  release: 0.1
+  filter:
+    cutoff: 0.7
+  volume: 0.7
+
+chord_sound:
+  type: "funk_chords"
+  harmonics: [1, 0.7, 0.5, 0.3]
+  envelope: "percussive"
+  decay_rate: 8
+  volume: 0.6
+
+signature_sounds:
+  - type: "riff"
+    name: "Funk Guitar"
+    notes:
+      - {interval: 0, duration: 0.125}
+      - {interval: 0, duration: 0.125, rest: 0.125}
+      - {interval: 7, duration: 0.125}
+      - {interval: 5, duration: 0.25}
+    sound:
+      harmonics: [1, 0.8, 0.4]
+      envelope: "percussive"
+      decay_rate: 15
+      
+layout:
+  scale_pads:
+    positions:
+      # Funky layout optimized for pentatonic riffs
+      - {x: 0, y: 5, note: 0, color: [255, 127, 0]}
+      - {x: 1, y: 5, note: 3, color: [255, 200, 0]}
+      - {x: 2, y: 5, note: 5, color: [255, 255, 0]}
+      - {x: 3, y: 5, note: 7, color: [200, 255, 0]}
+      - {x: 4, y: 5, note: 10, color: [0, 255, 127]}
+      - {x: 5, y: 5, note: 12, color: [0, 200, 255]}
+      - {x: 6, y: 5, note: 15, color: [127, 0, 255]}
+      - {x: 7, y: 5, note: 17, color: [255, 0, 255]}
+      # Second row - passing tones
+      - {x: 0, y: 4, note: 2, color: [200, 100, 0]}
+      - {x: 1, y: 4, note: 5, color: [255, 255, 0]}
+      - {x: 2, y: 4, note: 7, color: [200, 255, 0]}
+      - {x: 3, y: 4, note: 9, color: [100, 255, 100]}
+      - {x: 4, y: 4, note: 10, color: [0, 255, 127]}
+      - {x: 5, y: 4, note: 12, color: [0, 200, 255]}
+      - {x: 6, y: 4, note: 14, color: [100, 100, 255]}
+      - {x: 7, y: 4, note: 17, color: [255, 0, 255]}
+      # Chord row
+      - {x: 0, y: 3, note: 0, chord: "F#m7", color: [100, 50, 0]}
+      - {x: 1, y: 3, note: 5, chord: "Bm7", color: [50, 100, 0]}
+      - {x: 2, y: 3, note: 10, chord: "E", color: [0, 50, 100]}
+      - {x: 3, y: 3, note: 3, chord: "A", color: [100, 100, 0]}
+      - {x: 4, y: 3, note: 7, chord: "D", color: [100, 0, 100]}
+      
+  drum_pads:
+    positions:
+      - {x: 0, y: 7, drum: "kick", color: [255, 100, 0]}
+      - {x: 1, y: 7, drum: "snare", color: [255, 200, 0]}
+      - {x: 2, y: 7, drum: "hihat", color: [200, 255, 0]}
+      - {x: 3, y: 7, drum: "cymbal", color: [0, 255, 200]}
+      - {x: 0, y: 6, drum: "kick", color: [255, 100, 0]}
+      - {x: 1, y: 6, drum: "tom", color: [255, 150, 0]}
+      - {x: 2, y: 6, drum: "hihat", color: [200, 255, 0]}
+      - {x: 3, y: 6, drum: "cymbal", color: [0, 255, 200]}
+      
+  signature_pads:
+    positions:
+      - {x: 8, y: 7, sound_index: 0, color: [255, 127, 0]}
+      
+  controls:
+    - {x: 0, y: 0, function: "octave_down", color: [100, 50, 0]}
+    - {x: 1, y: 0, function: "octave_up", color: [100, 50, 0]}
+    - {x: 6, y: 0, function: "chord_mode", color: [200, 200, 0]}
+    - {x: 7, y: 0, function: "arpeggiator", color: [200, 0, 200]}
