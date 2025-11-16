@@ -1,4 +1,7 @@
-#note_m.py
+"""
+BabySynth - Note and Audio Classes
+Defines Button, Note, and Chord classes for synthesizer functionality.
+"""
 from mingus.containers import Note as MingusNote, NoteContainer
 import numpy as np
 import simpleaudio as sa
@@ -27,7 +30,7 @@ class Button:
         return (self.x, self.y)
 
 class Note:
-    def __init__(self, name, frequency, buttons, color, lp):
+    def __init__(self, name, frequency, buttons, color, lp, web_broadcaster=None):
         self.name = name
         self.frequency = frequency
         self.buttons = buttons
@@ -36,6 +39,7 @@ class Note:
         self.playing_thread = None
         self.stop_flag = threading.Event()
         self.play_obj = None
+        self.web_broadcaster = web_broadcaster  # Optional web UI broadcaster
 
     def play(self):
         if not self.playing_thread or not self.playing_thread.is_alive():
@@ -63,6 +67,9 @@ class Note:
         for button in self.buttons:
             led = self.lp.panel.led(button.x, button.y)
             led.color = color
+            # Broadcast to web UI
+            if self.web_broadcaster:
+                self.web_broadcaster.update_led(button.x, button.y, color)
 
 class Chord:
     def __init__(self, notes):

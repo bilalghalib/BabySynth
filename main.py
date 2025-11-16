@@ -1,4 +1,7 @@
-#main_m.py
+"""
+BabySynth - Main Entry Point
+Initializes the LaunchpadSynth and handles button events.
+"""
 from concurrent.futures import ThreadPoolExecutor
 from synth import LaunchpadSynth
 import time

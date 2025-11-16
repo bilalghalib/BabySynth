@@ -1,0 +1,91 @@
+# BabySynth Party Mode! 🎉
+# Bright colors, fast animations, energetic sounds
+
+name: "Party Mode"
+
+models:
+  party_grid:
+    layout: |
+      CCCCCCCCx
+      DDDDDDDDx
+      EEEEEEEEx
+      FFFFFFFFx
+      GGGGGGGGx
+      AAAAAAAAx
+      BBBBBBBBx
+      CCCCCCCCx
+      DDDDDDDDx
+
+scales:
+  C_major: [C, D, E, F, G, A, B]
+
+colors:
+  C: [255, 0, 255]    # Bright Magenta
+  D: [0, 255, 255]    # Cyan
+  E: [255, 255, 0]    # Yellow
+  F: [255, 0, 0]      # Red
+  G: [0, 255, 0]      # Green
+  A: [0, 0, 255]      # Blue
+  B: [255, 128, 0]    # Orange
+
+debounce: true
+
+# Party animations!
+animations:
+  disco_flash:
+    duration: 0.5
+    loop: true
+    frames:
+      - delay: 0.05
+        all_buttons: [255, 0, 255]
+      - delay: 0.05
+        all_buttons: [255, 255, 0]
+      - delay: 0.05
+        all_buttons: [0, 255, 255]
+      - delay: 0.05
+        all_buttons: [255, 0, 0]
+
+  strobe:
+    duration: 0.3
+    loop: true
+    frames:
+      - delay: 0.1
+        all_buttons: [255, 255, 255]
+      - delay: 0.1
+        all_buttons: [0, 0, 0]
+
+chord_progressions:
+  party_time: [C, G, A, F, C, G, A, F]
+  drop: [C, C, C, G]
+
+themes:
+  neon:
+    C: [255, 20, 147]
+    D: [0, 255, 127]
+    E: [255, 215, 0]
+    F: [255, 69, 0]
+    G: [138, 43, 226]
+    A: [0, 191, 255]
+    B: [255, 105, 180]
+
+macros:
+  disco_mode:
+    trigger: [[4,4]]
+    action: play_animation('disco_flash')
+
+  theme_neon:
+    trigger: [[0,0]]
+    action: apply_theme('neon')
+
+light_shows:
+  party_start:
+    duration: 8.0
+    sequence:
+      - time: 0.0
+        action: apply_theme('neon')
+      - time: 0.5
+        action: play_animation('strobe')
+      - time: 2.0
+        action: play_animation('disco_flash')
+      - time: 5.0
+        action: play_progression('party_time')
