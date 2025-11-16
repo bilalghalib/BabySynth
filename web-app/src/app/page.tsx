@@ -1,16 +1,82 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { VirtualLaunchpad } from '@/components/launchpad'
+import { SaveConfigModal } from '@/components/launchpad/SaveConfigModal'
 import { allConfigs } from '@/configs'
 import type { LaunchpadConfig } from '@/types'
+import { AuthModal } from '@/components/auth/AuthModal'
+import { UserMenu } from '@/components/auth/UserMenu'
+import { useAuth } from '@/lib/auth/AuthProvider'
+import { usePlaySession } from '@/hooks/usePlaySession'
+import { Save, Store } from 'lucide-react'
 
 export default function Home() {
   const [selectedConfig, setSelectedConfig] = useState<LaunchpadConfig>(allConfigs[0])
+  const [authModalOpen, setAuthModalOpen] = useState(false)
+  const [saveModalOpen, setSaveModalOpen] = useState(false)
+  const { user } = useAuth()
+  const { trackNotePlay } = usePlaySession(selectedConfig.name)
+  const router = useRouter()
+
+  // Load config from marketplace if present
+  useEffect(() => {
+    const loadedConfig = localStorage.getItem('loadedConfig')
+    if (loadedConfig) {
+      try {
+        const config = JSON.parse(loadedConfig)
+        setSelectedConfig(config)
+        localStorage.removeItem('loadedConfig')
+      } catch (e) {
+        console.error('Failed to load config from localStorage', e)
+      }
+    }
+  }, [])
+
+  const handleNotePlay = (note: string, position: [number, number]) => {
+    console.log(`Played ${note} at position ${position}`)
+    trackNotePlay()
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8">
       <div className="max-w-7xl mx-auto">
+        {/* Top Navigation */}
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex gap-2">
+            <button
+              onClick={() => router.push('/marketplace')}
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full font-medium transition-colors"
+            >
+              <Store size={20} />
+              <span className="hidden sm:inline">Marketplace</span>
+            </button>
+            {user && (
+              <button
+                onClick={() => setSaveModalOpen(true)}
+                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full font-medium transition-colors"
+              >
+                <Save size={20} />
+                <span className="hidden sm:inline">Save Config</span>
+              </button>
+            )}
+          </div>
+
+          <div>
+            {user ? (
+              <UserMenu />
+            ) : (
+              <button
+                onClick={() => setAuthModalOpen(true)}
+                className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-full font-medium transition-colors"
+              >
+                Sign In
+              </button>
+            )}
+          </div>
+        </div>
+
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold text-white mb-4">
@@ -42,9 +108,7 @@ export default function Home() {
         <div className="flex justify-center">
           <VirtualLaunchpad
             config={selectedConfig}
-            onNotePlay={(note, position) => {
-              console.log(`Played ${note} at position ${position}`)
-            }}
+            onNotePlay={handleNotePlay}
           />
         </div>
 
@@ -66,6 +130,19 @@ export default function Home() {
           <p>Made with ❤️ for music education</p>
         </div>
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+      />
+
+      {/* Save Config Modal */}
+      <SaveConfigModal
+        isOpen={saveModalOpen}
+        onClose={() => setSaveModalOpen(false)}
+        config={selectedConfig}
+      />
     </div>
   )
 }
