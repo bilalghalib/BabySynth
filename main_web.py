@@ -15,7 +15,7 @@ def main():
 
     # Start the web server in the background
     print("\n📡 Starting web server...")
-    web_thread = start_web_server_thread(host='0.0.0.0', port=5000)
+    web_thread = start_web_server_thread(host='0.0.0.0', port=5001)
 
     # Give the web server a moment to start
     time.sleep(2)
@@ -37,8 +37,8 @@ def main():
     print("\n" + "=" * 60)
     print("READY TO PLAY!")
     print("=" * 60)
-    print("\n📱 Open your browser to: http://localhost:5000")
-    print("   (or http://YOUR_IP:5000 from another device)")
+    print("\n📱 Open your browser to: http://localhost:5001")
+    print("   (or http://YOUR_IP:5001 from another device)")
     print("\n🎮 Press buttons on your Launchpad to make music!")
     print("   The web UI will show what's happening in real-time.")
     print("\n⌨️  Press Ctrl+C to exit\n")

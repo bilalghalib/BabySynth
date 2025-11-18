@@ -5,10 +5,17 @@ Initializes the LaunchpadSynth and handles button events.
 from concurrent.futures import ThreadPoolExecutor
 from synth import LaunchpadSynth
 import time
+import sys
 
 def main():
     config_file = 'config.yaml'
-    synth = LaunchpadSynth(config_file)
+    try:
+        synth = LaunchpadSynth(config_file)
+    except RuntimeError as exc:
+        print(f"❌ {exc}")
+        print("   Make sure your Launchpad Mini MK3 is connected and recognized by the OS.")
+        sys.exit(1)
+
     with ThreadPoolExecutor(max_workers=10) as executor:
         synth.start('C_major', 'ADGC')  # Use the correct model name from the YAML
 

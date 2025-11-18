@@ -193,6 +193,8 @@ python demos/snake.py
 # etc.
 ```
 
+> Tip: Run demo scripts from the project root (or use `python -m demos.simon`) so Python can find `note.py` and the YAML configs. The `babyplayer` demo automatically looks in `configs/baby_config.yaml`, but you can pass a different path if you have your own layout.
+
 See `demos/README.md` for a complete list and descriptions.
 
 ## 🔌 Creating Your Own Games (Plugin System)
@@ -325,6 +327,13 @@ All dependencies are listed in `requirements.txt`:
 ```bash
 pip install -r requirements.txt
 ```
+
+### "ModuleNotFoundError: No module named 'note'"
+- Run the script from the project root or invoke it as a module (e.g. `python -m demos.britney`) so the repository stays on `PYTHONPATH`.
+- If you're launching a demo that expects a YAML like `baby_config.yaml`, the script now searches the `/configs` directory automatically. You can also pass the full path explicitly.
+
+### "unsupported platform" when starting `main_web.py`
+- Flask-SocketIO now forces the lightweight `threading` async mode, so you no longer need `eventlet`/`trio` on macOS. Reinstall dependencies if you still see the error: `pip install --force-reinstall -r requirements.txt`.
 
 ### Buttons Triggering Multiple Times
 - Enable debouncing in `config.yaml`: `debounce: true`

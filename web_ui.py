@@ -12,7 +12,8 @@ from config_manager import ConfigManager
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'babysynth-secret-key'
-socketio = SocketIO(app, cors_allowed_origins="*")
+# Force the simple threading async mode so macOS users don't need eventlet/gevent.
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 
 # Store the current LED state (9x9 grid)
 led_state = [[{'x': x, 'y': y, 'color': [0, 0, 0]} for x in range(9)] for y in range(9)]

@@ -11,6 +11,7 @@ from note import Note, Button, Chord
 
 class LaunchpadSynth:
     def __init__(self, config_file, web_broadcaster=None):
+        self.web_broadcaster = web_broadcaster  # Optional web UI broadcaster - must be set first
         self.load_config(config_file)
         self.init_launchpad()
         self.notes = {}
@@ -21,7 +22,6 @@ class LaunchpadSynth:
         self.DEBOUNCE_WINDOW = 0.005  # Reduced debounce window
         self.debounce_timer = None
         self.lock = threading.Lock()  # Lock for thread-safe operations
-        self.web_broadcaster = web_broadcaster  # Optional web UI broadcaster
 
     def load_config(self, config_file):
         with open(config_file, 'r') as file:
@@ -36,10 +36,13 @@ class LaunchpadSynth:
         self.DEBOUNCE_WINDOW = 0.005 if self.debounce else 0  # Set debounce window based on setting
 
     def init_launchpad(self):
-        self.lp = find_launchpads()[0]
-        if self.lp is None:
-            print("No Launchpad found. Exiting.")
-            exit()
+        launchpads = find_launchpads()
+        if not launchpads:
+            raise RuntimeError(
+                "No Launchpad Mini MK3 detected. Connect it via USB and try again."
+            )
+
+        self.lp = launchpads[0]
         self.lp.open()
         self.lp.mode = Mode.PROG
         self.clear_grid()

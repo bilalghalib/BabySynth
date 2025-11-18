@@ -1,20 +1,30 @@
+import sys
+import os
+# Add parent directory to path so we can import note module
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import yaml
 import time
 import threading
 import numpy as np
 import simpleaudio as sa
+from pathlib import Path
 from lpminimk3 import ButtonEvent, Mode, find_launchpads
 from note import play_wave
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_CONFIG = PROJECT_ROOT / "configs" / "baby_config.yaml"
 
 class BabyPlayer:
     """Super simple music player for toddlers - one button = one cool riff!"""
 
-    def __init__(self, config_file='baby_config.yaml'):
+    def __init__(self, config_file=DEFAULT_CONFIG):
         self.running = True
         self.lock = threading.Lock()
 
         # Load configuration
-        with open(config_file, 'r') as file:
+        self.config_path = self._resolve_config_path(config_file)
+        with open(self.config_path, 'r') as file:
             self.config = yaml.safe_load(file)
 
         self.tempo = self.config['tempo']
@@ -27,15 +37,35 @@ class BabyPlayer:
         self.loop_threads = []
 
         # Initialize hardware
-        self.lp = find_launchpads()[0]
-        if self.lp is None:
-            print("No Launchpad found. Exiting.")
-            exit()
+        launchpads = find_launchpads()
+        if not launchpads:
+            raise RuntimeError("No Launchpad found. Connect a Launchpad Mini MK3 and try again.")
+
+        self.lp = launchpads[0]
         self.lp.open()
         self.lp.mode = Mode.PROG
 
         self.setup_colors()
         print(f"🎵 BABY MUSIC PLAYER READY! 🎵")
+
+    def _resolve_config_path(self, config_file):
+        """Locate the requested config file regardless of current working dir."""
+        candidate = Path(config_file)
+        if candidate.is_file():
+            return candidate
+
+        root_candidate = PROJECT_ROOT / candidate
+        if root_candidate.is_file():
+            return root_candidate
+
+        configs_candidate = PROJECT_ROOT / "configs" / candidate.name
+        if configs_candidate.is_file():
+            return configs_candidate
+
+        raise FileNotFoundError(
+            f"Could not find config file '{config_file}'. "
+            f"Tried '{candidate}', '{root_candidate}', '{configs_candidate}'."
+        )
 
     def generate_bass_sound(self, frequency, duration=0.4):
         """Generate warm, deep bass sound"""
@@ -293,7 +323,10 @@ class BabyPlayer:
             print("\n👋 Bye bye! Great music! 🎵")
 
 if __name__ == "__main__":
-    import sys
-    config_file = sys.argv[1] if len(sys.argv) > 1 else 'baby_config.yaml'
-    player = BabyPlayer(config_file)
+    config_arg = Path(sys.argv[1]).expanduser() if len(sys.argv) > 1 else DEFAULT_CONFIG
+    try:
+        player = BabyPlayer(config_arg)
+    except (FileNotFoundError, RuntimeError) as exc:
+        print(f"❌ {exc}")
+        sys.exit(1)
     player.start()
