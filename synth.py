@@ -8,10 +8,13 @@ import threading
 import simpleaudio as sa
 from lpminimk3 import ButtonEvent, Mode, find_launchpads
 from note import Note, Button, Chord
+from session_manager import SessionManager
 
 class LaunchpadSynth:
-    def __init__(self, config_file, web_broadcaster=None):
+    def __init__(self, config_file, web_broadcaster=None, session_manager=None, user_profile="default"):
         self.web_broadcaster = web_broadcaster  # Optional web UI broadcaster - must be set first
+        self.session_manager = session_manager  # Optional session recording
+        self.user_profile = user_profile  # User profile for session tracking
         self.load_config(config_file)
         self.init_launchpad()
         self.notes = {}
@@ -22,6 +25,7 @@ class LaunchpadSynth:
         self.DEBOUNCE_WINDOW = 0.005  # Reduced debounce window
         self.debounce_timer = None
         self.lock = threading.Lock()  # Lock for thread-safe operations
+        self.config_file = config_file  # Store for session metadata
 
     def load_config(self, config_file):
         with open(config_file, 'r') as file:
@@ -78,7 +82,8 @@ class LaunchpadSynth:
                     frequency = self.get_frequency_for_note(note_name)
                     color = self.colors[note_name]
                     if note_name not in self.notes:
-                        self.notes[note_name] = Note(note_name, frequency, [button], color, self.lp, self.web_broadcaster)
+                        self.notes[note_name] = Note(note_name, frequency, [button], color, self.lp,
+                                                     self.web_broadcaster, self.session_manager)
                     else:
                         self.notes[note_name].buttons.append(button)
                 elif char in file_mapping:
@@ -133,6 +138,17 @@ class LaunchpadSynth:
 
     def start(self, scale, model_name):
         self.assign_notes_and_files(scale, model_name)
+
+        # Start session recording if session manager is enabled
+        if self.session_manager:
+            self.session_manager.start_session(
+                user_profile=self.user_profile,
+                config_name=self.config_file,
+                scale=scale,
+                model_name=model_name
+            )
+            print(f"🎵 Session recording started for profile: {self.user_profile}")
+
         print("Listening for button presses. Press Ctrl+C to exit.")
         event_thread = threading.Thread(target=self.event_loop)
         event_thread.start()
@@ -169,17 +185,34 @@ class LaunchpadSynth:
                 x, y = button.x, button.y
                 logging.info(f"Processing button event at {x}, {y}")
 
+                # Track what was pressed for session recording
+                pressed_note = None
+                pressed_frequency = None
+                pressed_audio_file = None
+
                 for note in self.notes.values():
                     for btn in note.buttons:
                         if (x, y) == btn.get_position():
                             note.play()
+                            pressed_note = note.name
+                            pressed_frequency = note.frequency
                             break
 
                 for char, audio in self.audio_files.items():
                     for btn in audio["buttons"]:
                         if (x, y) == btn.get_position():
                             self.play_sound(audio["file"])
+                            pressed_audio_file = audio["file"]
                             break
+
+                # Record button press to session
+                if self.session_manager:
+                    self.session_manager.record_button_press(
+                        x, y,
+                        note_name=pressed_note,
+                        frequency=pressed_frequency,
+                        audio_file=pressed_audio_file
+                    )
 
             logging.info(f"Current grid: \n{self.get_ascii_grid()}")
             self.button_events.clear()
@@ -188,12 +221,19 @@ class LaunchpadSynth:
     def handle_button_release(self, button):
         x, y = button.x, button.y
         logging.info(f"Button release detected at {x}, {y}")
+
+        released_note = None
         for note in self.notes.values():
             for btn in note.buttons:
                 if (x, y) == btn.get_position():
                     note.stop()
+                    released_note = note.name
                     logging.info(f"Stopping note: {note.name}")
                     break
+
+        # Record button release to session
+        if self.session_manager:
+            self.session_manager.record_button_release(x, y, note_name=released_note)
 
     def play_sound(self, sound_file):
         # Stop the current audio if playing

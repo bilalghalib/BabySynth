@@ -30,7 +30,7 @@ class Button:
         return (self.x, self.y)
 
 class Note:
-    def __init__(self, name, frequency, buttons, color, lp, web_broadcaster=None):
+    def __init__(self, name, frequency, buttons, color, lp, web_broadcaster=None, session_manager=None):
         self.name = name
         self.frequency = frequency
         self.buttons = buttons
@@ -40,6 +40,7 @@ class Note:
         self.stop_flag = threading.Event()
         self.play_obj = None
         self.web_broadcaster = web_broadcaster  # Optional web UI broadcaster
+        self.session_manager = session_manager  # Optional session recording
 
     def play(self):
         if not self.playing_thread or not self.playing_thread.is_alive():
@@ -70,6 +71,9 @@ class Note:
             # Broadcast to web UI
             if self.web_broadcaster:
                 self.web_broadcaster.update_led(button.x, button.y, color)
+            # Record LED change to session
+            if self.session_manager:
+                self.session_manager.record_led_change(button.x, button.y, color)
 
 class Chord:
     def __init__(self, notes):
