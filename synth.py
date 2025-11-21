@@ -9,6 +9,7 @@ import simpleaudio as sa
 from lpminimk3 import ButtonEvent, Mode, find_launchpads
 from note import Note, Button, Chord
 from session_manager import SessionManager
+from led_animator import LEDAnimator
 
 class LaunchpadSynth:
     def __init__(self, config_file, web_broadcaster=None, session_manager=None, user_profile="default"):
@@ -38,6 +39,8 @@ class LaunchpadSynth:
         self.file_colors = config.get('file_colors', {})
         self.debounce = config.get('debounce', True)  # Read debounce setting, default to True if not specified
         self.DEBOUNCE_WINDOW = 0.005 if self.debounce else 0  # Set debounce window based on setting
+        self.animations_enabled = config.get('animations_enabled', True)  # Enable LED animations by default
+        self.animation_presets = config.get('animation_presets', {})  # Custom animation settings
 
     def init_launchpad(self):
         launchpads = find_launchpads()
@@ -51,6 +54,13 @@ class LaunchpadSynth:
         self.lp.mode = Mode.PROG
         self.clear_grid()
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+        # Initialize LED animator if animations are enabled
+        if self.animations_enabled:
+            self.led_animator = LEDAnimator(self.lp, self.session_manager, self.web_broadcaster)
+            logging.info("✨ LED animations enabled")
+        else:
+            self.led_animator = None
 
     def clear_grid(self):
         for x in range(9):
@@ -83,7 +93,8 @@ class LaunchpadSynth:
                     color = self.colors[note_name]
                     if note_name not in self.notes:
                         self.notes[note_name] = Note(note_name, frequency, [button], color, self.lp,
-                                                     self.web_broadcaster, self.session_manager)
+                                                     self.web_broadcaster, self.session_manager,
+                                                     self.led_animator)
                     else:
                         self.notes[note_name].buttons.append(button)
                 elif char in file_mapping:

@@ -43,4 +43,5 @@ file_colors:
   Y: [0, 128, 0]
   H: [0, 0, 128]
   U: [128, 128, 0]
-debounce: true  # Add this setting to enable/disable debouncing
+debounce: true  # Enable/disable debouncing
+animations_enabled: true  # Enable LED animations (breathing, pulse, fade effects)

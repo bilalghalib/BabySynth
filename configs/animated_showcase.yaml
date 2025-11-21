@@ -1,0 +1,46 @@
+name: AnimatedShowcase
+models:
+  ANIMATED:
+    layout: |
+      xxxxxxxxx
+      ABCDEFGAx
+      BCDEFGABx
+      CDEFGABCx
+      DEFGABCDx
+      EFGABCDEx
+      FGABCDEFx
+      GABCDEFGx
+      ABCDEFGAx
+
+scales:
+  C_major: [C, D, E, F, G, A, B]
+
+colors:
+  C: [255, 50, 50]    # Warm red
+  D: [255, 150, 0]    # Orange
+  E: [255, 255, 0]    # Yellow
+  F: [0, 255, 100]    # Spring green
+  G: [0, 200, 255]    # Cyan
+  A: [100, 100, 255]  # Blue
+  B: [200, 50, 255]   # Purple
+
+debounce: true
+animations_enabled: true  # 🌟 ANIMATIONS ON!
+
+# Animation configuration
+# All animations use these settings by default
+animation_presets:
+  breathe:
+    period: 2.0         # Breathing cycle time (seconds)
+    min_brightness: 0.4 # Minimum brightness (0.0 to 1.0)
+
+  pulse:
+    duration: 0.15      # Pulse duration (seconds)
+    max_brightness: 1.8 # Peak brightness multiplier
+
+  fade:
+    duration: 0.3       # Fade duration (seconds)
+    curve: "ease_out"   # Easing: linear, ease_in, ease_out, ease_in_out, sine
+
+# Optional: Disable animations for testing
+# animations_enabled: false

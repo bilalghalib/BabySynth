@@ -30,7 +30,7 @@ class Button:
         return (self.x, self.y)
 
 class Note:
-    def __init__(self, name, frequency, buttons, color, lp, web_broadcaster=None, session_manager=None):
+    def __init__(self, name, frequency, buttons, color, lp, web_broadcaster=None, session_manager=None, led_animator=None):
         self.name = name
         self.frequency = frequency
         self.buttons = buttons
@@ -41,13 +41,25 @@ class Note:
         self.play_obj = None
         self.web_broadcaster = web_broadcaster  # Optional web UI broadcaster
         self.session_manager = session_manager  # Optional session recording
+        self.led_animator = led_animator  # Optional LED animation engine
 
     def play(self):
         if not self.playing_thread or not self.playing_thread.is_alive():
             self.stop_flag.clear()
             self.playing_thread = threading.Thread(target=self.play_note)
             self.playing_thread.start()
-        self.light_up_buttons((255, 255, 255))
+
+        # Use animations if available
+        if self.led_animator:
+            # Pulse effect on press, then start breathing
+            for button in self.buttons:
+                self.led_animator.pulse(button.x, button.y, (255, 255, 255), duration=0.1)
+                # After pulse, start breathing animation
+                threading.Timer(0.15, lambda b=button: self.led_animator.breathe(
+                    b.x, b.y, self.color, period=2.0, min_brightness=0.5
+                )).start()
+        else:
+            self.light_up_buttons((255, 255, 255))
 
     def play_note(self):
         wave = generate_sine_wave(self.frequency, 1)  # 1-second buffer to keep the note playing
@@ -62,7 +74,16 @@ class Note:
             self.playing_thread.join()
         if self.play_obj:
             self.play_obj.stop()
-        self.light_up_buttons(self.color)
+
+        # Use animations if available
+        if self.led_animator:
+            for button in self.buttons:
+                # Stop any active animation
+                self.led_animator.stop_animation(button.x, button.y)
+                # Fade back to base color
+                self.led_animator.fade(button.x, button.y, (255, 255, 255), self.color, duration=0.3)
+        else:
+            self.light_up_buttons(self.color)
 
     def light_up_buttons(self, color):
         for button in self.buttons:
