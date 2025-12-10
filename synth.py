@@ -18,7 +18,7 @@ class LaunchpadSynth:
         self.audio_files = {}
         self.active_chords = []
         self.button_events = []
-        self.current_audio_play_obj = None  # To keep track of the current playing WAV file
+        self.active_audio_objects = []  # List to keep track of all playing audio (polyphonic)
         self.DEBOUNCE_WINDOW = 0.005  # Reduced debounce window
         self.debounce_timer = None
         self.lock = threading.Lock()  # Lock for thread-safe operations
@@ -196,9 +196,11 @@ class LaunchpadSynth:
                     break
 
     def play_sound(self, sound_file):
-        # Stop the current audio if playing
-        if self.current_audio_play_obj and self.current_audio_play_obj.is_playing():
-            self.current_audio_play_obj.stop()
-        
+        """Play a sound file with polyphonic (overlapping) playback"""
+        # Clean up finished audio objects
+        self.active_audio_objects = [obj for obj in self.active_audio_objects if obj.is_playing()]
+
+        # Play new sound without stopping others (polyphonic)
         wave_obj = sa.WaveObject.from_wave_file(sound_file)
-        self.current_audio_play_obj = wave_obj.play()
+        play_obj = wave_obj.play()
+        self.active_audio_objects.append(play_obj)

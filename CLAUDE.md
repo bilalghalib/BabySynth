@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**BabySynth** (Synth.baby) is a Python-based baby synthesizer and soundboard that uses the **Launchpad Mini MK3** MIDI controller. It transforms the Launchpad's 8x8 grid of LED buttons into a customizable musical instrument where each button can:
-1. Play a synthesized musical note (sine wave at specific frequency)
-2. Play a pre-recorded .wav sound file
-
-The project also includes 30+ interactive games and demos built on the same framework (Simon Says, Snake, Bubble Pop, Color Catch, etc.).
+**BabySynth** (Synth.baby) is a Python-based baby synthesizer and interactive soundboard built for the **Launchpad Mini MK3** MIDI controller. It transforms the controller's 8x8 grid into:
+1. A customizable musical instrument (synthesized notes via sine waves)
+2. A soundboard (pre-recorded .wav files)
+3. A game platform (30+ interactive demos: Simon Says, Snake, Bubble Pop, etc.)
+4. A web-monitored device with real-time LED visualization
 
 ## Quick Start
 
@@ -19,173 +19,226 @@ pip install -r requirements.txt
 # Run the main synthesizer
 python main.py
 
+# Run with web UI monitoring (http://localhost:5001)
+python main_web.py
+
 # Run a demo/game
 python demos/simon.py
+
+# Run plugin-based games
+python game_plugin.py
 ```
 
-## Project Structure
+## Entry Points
 
-```
-BabySynth/
-├── main.py              # Entry point - initializes synth and event loop
-├── synth.py             # LaunchpadSynth class - core controller
-├── note.py              # Button, Note, and Chord classes
-├── config.yaml          # Main configuration file
-├── requirements.txt     # Python dependencies
-├── sounds/              # WAV files for sound playback
-├── configs/             # Additional YAML configurations
-│   ├── baby_config.yaml
-│   ├── drum_kit.yaml
-│   ├── baby_grunge.yaml
-│   └── ...
-└── demos/               # Games and interactive demos
-    ├── simon.py
-    ├── snake.py
-    ├── bubble.py
-    └── ...
-```
+- **`main.py`** - Standard synthesizer mode (console only)
+- **`main_web.py`** - Synthesizer with web UI on http://localhost:5001
+- **`game_plugin.py`** - Plugin-based game launcher (auto-discovers games in `plugins/`)
+- **`demos/*.py`** - Standalone game scripts (30+ files)
 
 ## Core Architecture
 
-### 1. LaunchpadSynth (synth.py)
-Main controller that:
-- Loads YAML configuration
-- Initializes Launchpad hardware connection
-- Maps grid buttons to notes or sound files based on layout
-- Handles button press/release events with optional debouncing
-- Manages threading for non-blocking audio playback
+### Event Processing Pipeline
 
-**Key Methods:**
-- `load_config()` - Parses YAML configuration
-- `init_launchpad()` - Connects to Launchpad hardware
-- `assign_notes_and_files()` - Maps buttons to notes/sounds
-- `handle_event()` - Processes button press/release events
-- `play_sound()` - Plays WAV files
+```
+Hardware Button Press
+  → Logged with (x, y) coordinates
+  → Added to button_events queue
+  → [Optional] Batched by debounce timer (5ms window)
+  → process_button_events() executes
+  → Note.play() or play_sound() called
+  → LED color updated on hardware
+  → Broadcasted to web UI (if enabled)
+```
 
-### 2. Button, Note, and Chord Classes (note.py)
-- **Button**: Represents a physical button with (x, y) position and color
-- **Note**: Synthesized musical note with frequency, generates sine waves, handles play/stop with threading
-- **Chord**: Collection of notes played simultaneously (currently defined but not heavily used)
+### Threading Model
 
-### 3. Event Handling (main.py)
-- ThreadPoolExecutor manages concurrent button event processing
-- Main loop polls for button events and submits them to thread pool
-- Small sleep (0.01s) prevents high CPU usage
+The project uses extensive threading for non-blocking operations:
 
-### 4. Configuration System (config.yaml)
-YAML-based configuration defines:
-- **models**: ASCII grid layouts mapping characters to button positions
-- **scales**: Musical scales (e.g., C_major: [C, D, E, F, G, A, B])
-- **colors**: RGB colors for each note
-- **file_char_and_locations**: Maps characters to .wav file paths
-- **file_colors**: RGB colors for sound file buttons
-- **debounce**: Boolean to enable/disable button debouncing
+1. **Main Thread**: Polls Launchpad hardware for button events (blocking API)
+2. **ThreadPoolExecutor** (10 workers): Processes button events concurrently
+3. **Note Playback Threads**: Each Note instance has independent `playing_thread` for continuous sine wave generation
+4. **Debounce Timer**: `threading.Timer` batches events within 5ms window to prevent double-triggers
+5. **ConfigManager Watch Thread**: File monitoring for hot-reload (if using config_manager.py)
+6. **Web Server Thread**: Flask-SocketIO runs on separate thread (in main_web.py)
 
-### Example Config Layout
+**Synchronization**: Lock-based for shared state, Event flags for Note stop signals.
+
+### Key Classes
+
+**LaunchpadSynth (synth.py)** - Core controller bridging hardware, config, and audio
+- `load_config()` - Parses YAML, supports models/scales/colors/file mappings
+- `assign_notes_and_files()` - Maps ASCII grid characters to Note objects or .wav files
+- `handle_event()` - Routes PRESS/RELEASE events to appropriate handlers
+- `get_frequency_for_note()` - Converts note names to Hz (A4=440Hz standard)
+- Optional `web_broadcaster` parameter for LED visualization
+
+**Note (note.py)** - Synthesized musical tone
+- `play()` - Spawns thread, sets buttons white, starts continuous playback
+- `play_note()` - Loop generating 1-second sine wave buffers (16-bit PCM, 44.1kHz)
+- `stop()` - Sets stop flag, joins thread, restores button colors
+- Thread-safe with stop_flag (threading.Event)
+
+**Button (note.py)** - Simple (x, y) position + color storage
+
+**Chord (note.py)** - Multiple simultaneous notes (defined but minimally used)
+
+**WebUIBroadcaster (web_ui.py)** - Singleton for real-time LED sync
+- `update_led(x, y, color)` - Emits SocketIO event to all web clients
+- `update_grid(grid_data)` - Bulk grid updates
+- Flask routes: `/` (live view), `/editor` (audio editor), `/config` (visual config editor)
+
+### Configuration System
+
+**Basic Structure (config.yaml)**:
 ```yaml
 models:
-  ADGC:
-    layout: |
-      xxxxxxxxx
-      ABCDEFGAx
-      BCDEFGABx
+  LAYOUT_NAME:
+    layout: |          # 9x9 ASCII grid
+      xxxxxxxxx         # 'x' = inactive button
+      ABCDEFGAx        # Each char = note or sound
       ...
+
+scales:
+  C_major: [C, D, E, F, G, A, B]
+
+colors:
+  C: [255, 0, 0]      # RGB tuples
+
+file_char_and_locations:
+  Z: "./sounds/file.wav"
+
+file_colors:
+  Z: [128, 0, 0]
+
+debounce: true        # 5ms batching window
 ```
-Each character represents which note/sound that button plays. The `x` character means no mapping (button inactive).
 
-## Technical Details
+**Advanced Features** (see configs/ directory):
+- Themes, animations (frame-based LED patterns)
+- Chord progressions, macros
+- ADSR envelopes (drum_kit.yaml example)
 
-### Audio Generation
-- Notes are generated as sine waves using NumPy
-- Formula: `amplitude * sin(2π * frequency * t)`
-- 16-bit PCM audio at 44.1kHz sample rate
-- Continuous playback via threading with stop flags
+**ConfigManager (config_manager.py)**: Hot-reload support with file watching and callback system.
 
-### Debouncing
-- Configurable debounce window (default 5ms)
-- Prevents multiple triggers from single button press
-- Uses threading.Timer to batch events within window
+## Game Development
 
-### Thread Safety
-- Lock-based synchronization for event handling
-- ThreadPoolExecutor manages concurrent audio playback
-- Each Note has its own playing_thread
+### Two Approaches
 
-## Dependencies
+**1. Standalone Demos (demos/ directory)**
+- 30+ existing examples (simon.py, snake.py, bubble.py, etc.)
+- Direct imports: `from lpminimk3 import LaunchpadMiniMk3, Mode`
+- Full control, no framework constraints
+- Run directly: `python demos/game_name.py`
 
-- **lpminimk3** (>=0.4.1) - Launchpad Mini MK3 Python library
-- **simpleaudio** (>=1.0.4) - Cross-platform audio playback
-- **numpy** (>=1.24.0) - Numerical operations for wave generation
-- **pyyaml** (>=6.0) - YAML configuration parsing
-- **mingus** (>=0.6.1) - Music theory utilities (currently minimal usage)
+**2. Plugin System (plugins/ directory)**
+- Inherit from `Game` base class (game_plugin.py)
+- Required methods: `start()`, `handle_button_press(x, y)`, `stop()`
+- Optional: `handle_button_release(x, y)`
+- Auto-discovered by GameLoader
+- Run: `python game_plugin.py` (presents menu of available games)
 
-## Common Development Tasks
+**Game Base Class Helpers**:
+- `init_launchpad()` - Hardware connection
+- `clear_grid()` - Turn off all LEDs
+- `set_led(x, y, color)` - Update single button
+- Metadata: name, description, difficulty, min_age
 
-### Adding a New Note Layout
-1. Edit `config.yaml` (or create new YAML in `configs/`)
-2. Define a new model with ASCII grid layout
-3. Map characters to notes in scales section
-4. Optionally customize colors
-5. Update `main.py` to use new model name in `synth.start()`
+### Example Plugin
+```python
+from game_plugin import Game
+
+class MyGame(Game):
+    def __init__(self):
+        super().__init__(name="My Game", description="Fun!",
+                         difficulty="Easy", min_age=1)
+
+    def start(self):
+        self.clear_grid()
+        # Initialize game state
+
+    def handle_button_press(self, x, y):
+        # Game logic
+        pass
+
+    def stop(self):
+        self.clear_grid()
+```
+
+## Development Workflows
+
+### Adding a New Configuration
+1. Create `configs/my_config.yaml`
+2. Define models (ASCII grid layouts), scales, colors
+3. Add sound file mappings if needed
+4. Load in code: `LaunchpadSynth('configs/my_config.yaml')`
+5. Or use hot-reload with ConfigManager
 
 ### Adding Sound Files
 1. Place .wav files in `sounds/` directory
-2. Add character mapping in `file_char_and_locations`
-3. Set colors in `file_colors`
-4. Use that character in a layout grid
+2. Add to `file_char_and_locations` in YAML
+3. Set color in `file_colors`
+4. Use character in model layout grid
 
-### Creating a New Game/Demo
-1. See examples in `demos/` directory
-2. Import necessary classes from lpminimk3 and note.py
-3. Initialize Launchpad connection
-4. Implement game loop with button event handling
-5. Use LED colors for visual feedback
+### Creating a New Game
+**Standalone**: Create `demos/my_game.py`, import lpminimk3 directly
+**Plugin**: Create `plugins/my_game.py`, inherit from Game class
+
+### Web UI Development
+- Flask routes in web_ui.py
+- SocketIO events for real-time LED sync
+- Templates in `templates/`, static assets in `static/`
+- WebUIBroadcaster singleton provides state management
 
 ### Debugging
-- Logging is enabled by default (INFO level)
-- Button presses/releases are logged with coordinates
-- Grid state is logged after events in synth.py:167
-- Check `self.get_ascii_grid()` for current button mapping
+- Logging enabled by default (INFO level)
+- Button events logged with (x, y) coordinates
+- Grid state: `synth.get_ascii_grid()` shows current mappings
+- Web UI provides visual debugging at http://localhost:5001
 
-## Hardware Requirements
-
-- **Launchpad Mini MK3** by Novation
-- USB connection to computer
-- The lpminimk3 library handles device detection automatically
-
-## Known Patterns and Conventions
+## Technical Conventions
 
 - **Button coordinates**: (x, y) where both range 0-8
 - **Colors**: RGB tuples like (255, 0, 0) for red
-- **Frequencies**: Standard note frequencies (A4 = 440Hz, C4 = 261.63Hz)
-- **Threading**: Used extensively for non-blocking audio
-- **Event-driven**: All interactions are button press/release events
-- **Grid layout**: 9x9 grid where top row (y=0) is typically reserved for controls
+- **Frequencies**: Standard tuning (A4 = 440Hz, C4 = 261.63Hz)
+- **Audio**: 16-bit PCM, 44.1kHz sample rate, sine waves via NumPy
+- **Grid layout**: 9x9 grid, top row (y=0) often reserved for controls
+- **Character mapping**: 'x' in layout = inactive button
 
-## Potential Issues
+## Important Architecture Notes
 
-- **No Launchpad detected**: Ensure device is connected and powered
-- **Import errors**: Run `pip install -r requirements.txt`
-- **Audio issues**: simpleaudio requires platform-specific dependencies (ALSA on Linux)
-- **File not found**: Check relative paths for sound files in config.yaml
-- **Multiple triggers**: Enable debouncing in config.yaml
+### Dependency Injection Pattern
+- `web_broadcaster` parameter passed through LaunchpadSynth → Note → light_up_buttons()
+- Allows running without web UI (parameter is optional)
+- Enables console-only mode (main.py) and web-enabled mode (main_web.py) with same codebase
 
-## Code Quality Notes
+### Audio Playback Differences
+- **Synthesized notes** (Note class): Polyphonic, multiple can play simultaneously (separate threads)
+- **Sound files** (play_sound()): Monophonic, only one .wav at a time (stops previous before playing new)
 
-- All core files now have proper docstrings
-- Project is organized with demos/ and configs/ subdirectories
-- requirements.txt provides clear dependency management
-- Thread-safe operations use locks appropriately
-- Debouncing is configurable for different use cases
+### Web UI Communication
+- Flask-SocketIO uses `threading` async mode (macOS compatible)
+- No eventlet/gevent required
+- Real-time LED updates via `update_led` SocketIO events
+- New clients receive full grid state on connect
 
-## Additional Notes
+### Configuration Parsing
+- Models must be valid 9x9 ASCII grids
+- Characters in layout map to scales or file_char_and_locations
+- No validation for character consistency (manual verification needed)
+- Multiple models can share same scales/colors
 
-- The project was developed iteratively (many demo variations exist)
-- Some demos may reference sound files that don't exist
-- The Chord class is defined but not extensively used in main synth
-- Archive.zip contains old versions (can likely be removed)
-- .DS_Store files indicate macOS development
+## Known Limitations
 
-## Future Enhancement Ideas
+1. **Chord Infrastructure**: Chord class defined but minimally used; multiple notes per button play sequentially, not simultaneously
+2. **Debouncing Trade-off**: 5ms window reduces accidental double-triggers but may affect rapid play patterns
+3. **Plugin Game Scope**: Games run independently, can't layer over synth soundboard (separate Launchpad init)
+4. **No Formal Tests**: Testing relies on manual hardware verification and demo scripts
 
-See the main README.md for detailed improvement suggestions.
+## Common Issues
+
+- **No Launchpad detected**: Check USB connection, ensure no other app is using device
+- **ModuleNotFoundError**: Run demos from project root or use `python -m demos.game_name`
+- **Audio issues (Linux)**: Install ALSA: `sudo apt-get install libasound2-dev`
+- **Multiple triggers**: Enable `debounce: true` in YAML config
+- **Sound file not found**: Check paths in `file_char_and_locations` are relative to execution directory

@@ -1,0 +1,178 @@
+name: "Polyrhythmic Drum Machine"
+artist: "BabySynth"
+tempo: 120
+key: "Percussion"
+
+# Polyphonic drum machine - layer as many sounds as you want!
+# All sounds can overlap and play simultaneously
+
+models:
+  DRUM_MACHINE:
+    layout: |
+      xxxxxxxxx
+      KKSSHHOOx
+      KKSSHHOOx
+      T1T2T3CCx
+      T1T2T3CCx
+      NNTTGGRRx
+      NNTTGGRRx
+      DDDDBBBBx
+      DDDDBBBBx
+
+  TABLA_SYNTH_MIX:
+    layout: |
+      xxxxxxxxx
+      NNNNSSSHx
+      NNNNSSSHx
+      TTTTKKKKx
+      GGGGEEEEx
+      DDDDCCCCx
+      L1L2L3RRx
+      WWWWMMMMx
+      BBBBBBBBx
+
+  SYNTH_ONLY:
+    layout: |
+      xxxxxxxxx
+      KKKKSSSSx
+      KKKKSSSSx
+      HHHHOOOOx
+      T1T1T2T2x
+      T3T3CCCCx
+      RRRRWWWWx
+      MMMMBBBBx
+      XXXXXXXXx
+
+# Required by synth.py
+scales:
+  C_major: [C, D, E, F, G, A, B]
+
+colors:
+  C: [255, 0, 0]
+  D: [0, 255, 0]
+  E: [0, 0, 255]
+  F: [255, 255, 0]
+  G: [0, 255, 255]
+  A: [255, 0, 255]
+  B: [128, 128, 128]
+
+# Sound mappings - Polyphonic! All can play together
+file_char_and_locations:
+  # Synthesized drums (electronic)
+  K: "./sounds/synth_drums/kick.wav"         # Kick drum
+  S: "./sounds/synth_drums/snare.wav"        # Snare
+  H: "./sounds/synth_drums/hihat_closed.wav" # Closed hi-hat
+  O: "./sounds/synth_drums/hihat_open.wav"   # Open hi-hat
+  T1: "./sounds/synth_drums/tom_low.wav"     # Low tom
+  T2: "./sounds/synth_drums/tom_mid.wav"     # Mid tom
+  T3: "./sounds/synth_drums/tom_high.wav"    # High tom
+  C: "./sounds/synth_drums/clap.wav"         # Clap
+  R: "./sounds/synth_drums/rimshot.wav"      # Rimshot
+  W: "./sounds/synth_drums/cowbell.wav"      # Cowbell
+  M: "./sounds/synth_drums/crash.wav"        # Crash cymbal
+  B: "./sounds/synth_drums/kick_deep.wav"    # Deep kick
+
+  # Tabla (acoustic)
+  N: "./sounds/tabla/na.wav"      # Tabla na (open rim)
+  T: "./sounds/tabla/tin.wav"     # Tabla tin (closed rim)
+  D: "./sounds/tabla/ge.wav"      # Tabla ge (bass)
+  G: "./sounds/tabla/ka.wav"      # Tabla ka (slap)
+  E: "./sounds/tabla/te.wav"      # Tabla te (middle)
+  L1: "./sounds/tabla/dha.wav"    # Tabla dha (combined)
+
+  # Daf (frame drum)
+  L2: "./sounds/daf/dum.wav"      # Daf dum (bass)
+  L3: "./sounds/daf/tak.wav"      # Daf tak (treble)
+  X: "./sounds/daf/roll.wav"      # Daf roll
+
+# Color coding
+file_colors:
+  # Synthesized drums (cool colors - electronic)
+  K: [255, 50, 50]      # Kick - bright red
+  S: [50, 150, 255]     # Snare - bright blue
+  H: [150, 150, 255]    # Hihat closed - light blue
+  O: [100, 200, 255]    # Hihat open - cyan
+  T1: [255, 100, 0]     # Tom low - orange
+  T2: [255, 150, 0]     # Tom mid - light orange
+  T3: [255, 200, 0]     # Tom high - yellow-orange
+  C: [255, 100, 255]    # Clap - magenta
+  R: [200, 200, 255]    # Rimshot - pale blue
+  W: [255, 255, 100]    # Cowbell - yellow
+  M: [150, 255, 150]    # Crash - pale green
+  B: [200, 0, 0]        # Deep kick - dark red
+
+  # Tabla (warm colors - acoustic)
+  N: [100, 150, 255]    # Na - light blue
+  T: [50, 100, 200]     # Tin - medium blue
+  E: [0, 50, 150]       # Te - dark blue
+  D: [255, 50, 50]      # Ge - bright red
+  G: [200, 0, 0]        # Ka - dark red
+
+  # Daf (warm earth tones)
+  L1: [150, 0, 150]     # Dha - purple
+  L2: [255, 100, 0]     # Dum - orange
+  L3: [255, 200, 0]     # Tak - yellow
+  X: [0, 255, 100]      # Roll - green
+
+debounce: true
+
+# Layout descriptions
+layout_guide:
+  DRUM_MACHINE: |
+    Complete drum kit with synthesized sounds
+    Top rows:    Kick | Snare | Hi-hat | Open hat
+    Mid rows:    Tom 1 | Tom 2 | Tom 3 | Clap
+    Bottom rows: Tabla | Synth drums | Daf
+
+  TABLA_SYNTH_MIX: |
+    Best of both worlds - acoustic + electronic
+    Tabla sounds on left, synth drums on right
+    Mix and match for unique rhythms!
+
+  SYNTH_ONLY: |
+    Pure synthesized electronic drums
+    Full kit: kicks, snares, hats, toms, effects
+
+# Performance tips
+tips: |
+  POLYPHONIC PLAYBACK IS NOW ENABLED!
+
+  This means you can:
+  • Hit multiple pads at once - they all play together
+  • Layer kicks with snares with hi-hats
+  • Create complex polyrhythms
+  • Build up drum patterns in real-time
+
+  Try this:
+  1. Hit a kick (K) repeatedly for groove
+  2. Add hi-hats (H) on top while kick plays
+  3. Layer snare (S) on beats 2 and 4
+  4. Add tabla (N, T, D) for texture
+  5. Use the corner button to record your beat!
+
+  Color guide:
+  • Red = Bass/kicks
+  • Blue = Snares/hi-hats
+  • Orange/Yellow = Toms/effects
+  • Purple/Magenta = Claps/special
+
+# Example patterns
+patterns:
+  Basic_Rock:
+    description: "Classic rock beat"
+    sequence: "K - H S - H K - H S - H"
+
+  Hip_Hop:
+    description: "Hip-hop boom bap"
+    sequence: "K - - - S - - - K - K - S - - -"
+
+  Tabla_Fusion:
+    description: "Blend tabla with synth"
+    sequence: "N K T - D S G - N K T - D S G -"
+
+  Polyrhythm:
+    description: "3 over 4 pattern"
+    sequence: |
+      Kick:  K - - K - - K - - K - -
+      Snare: - - S - - S - - S - - S
+      Tabla: N - T - N - T - N - T -
